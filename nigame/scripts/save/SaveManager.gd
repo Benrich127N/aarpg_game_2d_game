@@ -83,17 +83,25 @@ func valid(data: Variant) -> bool:
 		occupied.append(cell)
 	return bool_map(data.achievements, ["First pay", "Reliable worker", "Professional", "Established"])
 
+func migration_defaults() -> Dictionary:
+	# Deterministic defaults; never copy an unrelated current session into an old save.
+	return {"stats": {"cash": 5000, "energy": 100, "hunger": 100, "health": 100, "reputation": 0},
+		"clock": {"day": 1, "hour": 7, "minute": 0}, "location": "room", "position": [448, 448],
+		"inventory": {}, "jobs": {"active": {}, "cooldowns": {}, "completed": 0, "attempts": 0, "order": [], "index": 0, "pickup": false},
+		"dialogue": {}, "relationships": {}, "greeted": {}, "quests": {}, "claimed": {},
+		"housing": {"current": "room", "owned": {}, "next_rent": 8, "arrears": 0, "furniture": [], "stored": 1}, "achievements": {}}
 func migrate(data: Variant) -> Variant:
 	if data is Dictionary and data.get("version") == 1:
 		# Version 1 used the same core stats/clock/location; later systems get defaults.
-		var defaults: Dictionary = snapshot()
+		var defaults: Dictionary = migration_defaults()
 		for key in defaults:
 			if not data.has(key): data[key] = defaults[key]
 		data.version = VERSION
 	return data
 
 func apply(data: Dictionary) -> void:
-	Game.close_modal()
+	if is_instance_valid(Game.ui): Game.ui.close()
+	else: Game.close_modal()
 	Global.cash = int(data.stats.cash)
 	Global.energy = int(data.stats.energy)
 	Global.hunger = int(data.stats.hunger)
@@ -111,6 +119,7 @@ func apply(data: Dictionary) -> void:
 	Game.jobs.stock_order = data.jobs.order.duplicate()
 	Game.jobs.stock_index = int(data.jobs.index)
 	Game.jobs.delivery_checkpoint = data.jobs.pickup
+	Game.jobs.delivery_received = false
 	Game.dialogue.flags = data.dialogue.duplicate(true)
 	Game.relationships.values = data.relationships.duplicate(true)
 	Game.relationships.greeted_day = data.greeted.duplicate(true)
@@ -152,7 +161,7 @@ func write_save() -> bool:
 	if write_error != OK:
 		last_error = "Save write failed."
 		return false
-	if FileAccess.file_exists(path):
+	if FileAccess.file_exists(path) and read_state(path) != null:
 		if DirAccess.copy_absolute(absolute, absolute + ".bak") != OK:
 			last_error = "Cannot preserve save backup."
 			return false

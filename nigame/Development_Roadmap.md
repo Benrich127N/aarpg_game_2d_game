@@ -49,16 +49,16 @@ Progress dashboard
 | 02 Player and Camera             | 🟨 Implemented; manual review pending | 7 tasks     |     |
 | 03 Core State and Time           | 🟨 Implemented; manual review pending | 8 tasks     |     |
 | 04 HUD and Menus                 | 🟨 Implemented; manual review pending | 6 tasks     |     |
-| 05 Interaction                   | ⬜ Not started | 6 tasks     |     |
-| 06 NPC and Dialogue              | ⬜ Not started | 7 tasks     |     |
-| 07 Jobs and Minigames            | ⬜ Not started | 7 tasks     |     |
-| 08 Inventory and Shops           | ⬜ Not started | 7 tasks     |     |
-| 09 First Mainland Vertical Slice | ⬜ Not started | 7 tasks     |     |
-| 10 Save and Load                 | ⬜ Not started | 7 tasks     |     |
-| 11 Travel and Districts          | ⬜ Not started | 6 tasks     |     |
-| 12 Progression and Economy       | ⬜ Not started | 6 tasks     |     |
-| 13 Housing and Furniture         | ⬜ Not started | 6 tasks     |     |
-| 14 Relationships and Quests      | ⬜ Not started | 6 tasks     |     |
+| 05 Interaction                   | 🟨 Prototype implemented; review pending | 6 tasks     |     |
+| 06 NPC and Dialogue              | 🟨 Prototype implemented; review pending | 7 tasks     |     |
+| 07 Jobs and Minigames            | 🟨 Prototype implemented; review pending | 7 tasks     |     |
+| 08 Inventory and Shops           | 🟨 Prototype implemented; review pending | 7 tasks     |     |
+| 09 First Mainland Vertical Slice | 🟨 Prototype implemented; review pending | 7 tasks     |     |
+| 10 Save and Load                 | 🟨 Prototype implemented; review pending | 7 tasks     |     |
+| 11 Travel and Districts          | 🟨 Prototype implemented; review pending | 6 tasks     |     |
+| 12 Progression and Economy       | 🟨 Prototype implemented; review pending | 6 tasks     |     |
+| 13 Housing and Furniture         | 🟨 Prototype implemented; review pending | 6 tasks     |     |
+| 14 Relationships and Quests      | 🟨 Prototype implemented; review pending | 6 tasks     |     |
 | 15 Events and NPC Schedules      | ⬜ Not started | 6 tasks     |     |
 | 16 Customization and Phone       | ⬜ Not started | 6 tasks     |     |
 | 17 Audio and Polish              | ⬜ Not started | 6 tasks     |     |
@@ -172,171 +172,173 @@ Implementation and validation: [Steps 3–5 notes](docs/Steps_3_to_5.md). Automa
 
 Detailed instructions: [[02 - Step by Step Development Guide#Step 6 — Interaction]]
 
-Create reusable interactable contract
+- [x] Create reusable interactable contract
 
-Add player interaction detection Area2D
+- [x] Add player interaction detection Area2D
 
-Create proximity prompt and interact input
+- [x] Create proximity prompt and interact input
 
-Create door bed NPC and shop test objects
+- [x] Create door bed NPC and shop test objects
 
-Prevent interactions while dialogue or menu is open
+- [x] Prevent interactions while dialogue or menu is open
 
-Test overlapping interactables and priority
+- [x] Test overlapping interactables and priority
 
 06 · NPC and Dialogue
 
 Detailed instructions: [[02 - Step by Step Development Guide#Step 7 — NPC and Dialogue]]
 
-Create NPC.tscn and reusable NPC.gd
+- [x] Create NPC.tscn and reusable NPC.gd
 
-Define NPC identities and dialogue data
+- [x] Define NPC identities and dialogue data
 
-Create DialogueUI.tscn and DialogueManager.gd
+- [x] Create DialogueUI.tscn and DialogueManager.gd
 
-Implement branching choices and end dialogue
+- [x] Implement branching choices and end dialogue
 
-Implement dialogue conditions and effects
+- [x] Implement dialogue conditions and effects
 
-Track per NPC conversation flags
+- [x] Track per NPC conversation flags
 
-Create five NPCs and test all branches
+- [x] Create five NPCs and test all branches
 
 07 · Jobs and Minigames
 
 Detailed instructions: [[02 - Step by Step Development Guide#Step 8 — Jobs and Minigames]]
 
-Create JobData Resource and JobManager.gd
+- [x] Create JobData Resource and JobManager.gd
 
-Define eligibility pay energy cost and cooldown
+- [x] Define eligibility pay energy cost and cooldown
 
-Build delivery minigame
+- [x] Build delivery minigame
 
-Build matching or office minigame
+- [x] Build matching or office minigame
 
-Validate success and failure results
+- [x] Validate success and failure results
 
-Credit rewards exactly once
+- [x] Credit rewards exactly once
 
-Add job unlocks and progress tracking
+- [x] Add job unlocks and progress tracking
 
 08 · Inventory and Shops
 
 Detailed instructions: [[02 - Step by Step Development Guide#Step 9 — Inventory and Shops]]
 
-Create ItemData Resource and item catalog
+- [x] Create ItemData Resource and item catalog
 
-Create InventoryManager.gd and inventory UI
+- [x] Create InventoryManager.gd and inventory UI
 
-Implement stack limits add remove and use
+- [x] Implement stack limits add remove and use
 
-Create Shop.tscn and shop UI
+- [x] Create Shop.tscn and shop UI
 
-Implement atomic purchase validation
+- [x] Implement atomic purchase validation
 
-Implement food hunger restoration
+- [x] Implement food hunger restoration
 
-Test insufficient funds and full inventory
+- [x] Test insufficient funds and full inventory
 
 09 · First Mainland Vertical Slice
 
 Detailed instructions: [[02 - Step by Step Development Guide#Step 10 — First Mainland Vertical Slice]]
 
-Create Mainland.tscn with TileMapLayer ground and obstacles
+- [x] Create Mainland.tscn with TileMapLayer ground and obstacles
 
-Build room market food shop job location and street
+- [x] Build room market food shop job location and street
 
-Add collisions and player spawn
+- [x] Add collisions and player spawn
 
-Place five NPCs and interactive objects
+- [x] Place five NPCs and interactive objects
 
-Add street ambience and simple day night tint
+- [x] Add street ambience and simple day night tint
 
-Finish wake work shop eat sleep loop
+- [x] Finish wake work shop eat sleep loop
 
-Playtest a full game day without editor intervention
+- [ ] Playtest a full game day without editor intervention (human review; automated loop passed)
 
 10 · Save and Load
 
 Detailed instructions: [[02 - Step by Step Development Guide#Step 11 — Save and Load]]
 
-Create SaveManager.gd and versioned JSON schema
+- [x] Create SaveManager.gd and versioned JSON schema
 
-Save stats clock location inventory and quest flags
+- [x] Save stats clock location inventory and quest flags
 
-Write save files to user:// with temp file strategy
+- [x] Write save files to user:// with temp file strategy
 
-Load saved state and restore correct spawn
+- [x] Load saved state and restore correct spawn
 
-Handle missing corrupt and older save versions
+- [x] Handle missing corrupt and older save versions
 
-Add manual save and autosave triggers
+- [x] Add manual save and autosave triggers
 
-Test saving after travel and restart
+- [x] Test saving after travel and restart
 
 11 · Travel and Districts
 
 Detailed instructions: [[02 - Step by Step Development Guide#Step 12 — Travel and Districts]]
 
-Create SceneManager.gd and spawn markers
+- [x] Create SceneManager.gd and spawn markers
 
-Implement scene transition and transport cost
+- [x] Implement scene transition and transport cost
 
-Add business district prototype
+- [x] Add business district prototype
 
-Add Lekki and Island prototype
+- [x] Add Lekki and Island prototype
 
-Preserve player and world state across travel
+- [x] Preserve player and world state across travel
 
-Implement travel time and loading feedback
+- [x] Implement travel time and loading feedback
 
 12 · Progression and Economy
 
 Detailed instructions: [[02 - Step by Step Development Guide#Step 13 — Progression and Economy]]
 
-Separate cash net worth and reputation
+- [x] Separate cash net worth and reputation
 
-Create SocialClassManager and unlock conditions
+- [x] Create SocialClassManager and unlock conditions
 
-Implement career progression and achievements
+- [x] Implement career progression and achievements
 
-Create balancing table for jobs and expenses
+- [x] Create balancing table for jobs and expenses
 
-Add recurring rent and travel costs
+- [x] Add recurring rent and travel costs
 
-Prevent exploit loops and unreasonable progression
+- [x] Prevent exploit loops and unreasonable progression
 
 13 · Housing and Furniture
 
 Detailed instructions: [[02 - Step by Step Development Guide#Step 14 — Housing and Furniture]]
 
-Create PropertyData and HousingManager
+- [x] Create PropertyData and HousingManager
 
-Implement renting and buying
+- [x] Implement renting and buying
 
-Implement bed sleep and rent due dates
+- [x] Implement bed sleep and rent due dates
 
-Create apartment interiors and furniture inventory
+- [x] Create apartment interiors and furniture inventory
 
-Add furniture placement and storage
+- [x] Add furniture placement and storage
 
-Save furniture layout and ownership
+- [x] Save furniture layout and ownership
 
 14 · Relationships and Quests
 
 Detailed instructions: [[02 - Step by Step Development Guide#Step 15 — Relationships and Quests]]
 
-Create RelationshipManager and per NPC values
+- [x] Create RelationshipManager and per NPC values
 
-Implement friendship trust and optional romance
+- [x] Implement friendship trust and optional romance
 
-Create QuestData and QuestManager
+- [x] Create QuestData and QuestManager
 
-Implement objectives rewards and prerequisites
+- [x] Implement objectives rewards and prerequisites
 
-Create quest journal and phone contacts
+- [x] Create quest journal and phone contacts
 
-Test persistence and quest dependency chains
+- [x] Test persistence and quest dependency chains
+
+Implementation, controls, save schema and verification: [Steps 6–15 notes](docs/Steps_6_to_15.md). These ten steps are working prototypes, with further content and playtesting pending. District expansion was explicitly requested after the saved daily loop was implemented and tested. No commit was attempted following the earlier declined staging request.
 
 15 · Events and NPC Schedules
 

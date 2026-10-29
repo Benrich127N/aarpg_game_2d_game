@@ -8,7 +8,7 @@ var hunger: int = 100
 var health: int = 100
 var reputation: int = 0
 var input_blocked: bool = false
-var inventory: Dictionary = {"pure_water": 0, "gala": 0}
+# Inventory is owned by Game.inventory (InventoryManager).
 
 func add_cash(amount: int) -> bool:
 	if amount <= 0 or amount > 9223372036854775807 - cash:

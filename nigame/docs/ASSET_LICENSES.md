@@ -6,6 +6,8 @@ Record assets when added, including placeholders. Unknown means the source or pe
 | --- | --- | --- | --- | --- |
 | `res://playerSprite.png` | Unknown; already present in project | Unknown | Pending source identification | Prototype only; verify or replace before distribution |
 | `res://icon.svg` | Existing project icon; source unverified | Unknown | Pending source identification | Verify or replace before distribution |
+| Procedural district tiles, NPC shapes, furniture and street ambience | Created in this project in `scripts/world/District.gd` and `scripts/world/Interactable.gd` | Original procedural prototype content; no third-party input assets | No third-party credit required | Source tracked with project |
+| `data/dialogue.json` | Original fictional dialogue created for this project | Project-authored content | No third-party credit required | Prototype writing |
 
 ## Adding an asset
 

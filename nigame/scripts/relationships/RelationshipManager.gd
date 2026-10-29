@@ -17,7 +17,7 @@ func greet(id: String) -> bool:
 
 func express_interest(id: String) -> bool:
 	# Optional, explicitly player-chosen, fictional adult characters only.
-	if id != "bisi" or int(values.get(id, {}).get("friendship", 0)) < 20:
+	if id != "bisi" or int(values.get(id, {}).get("friendship", 0)) < 20 or int(values.get(id, {}).get("romance", 0)) > 0:
 		return false
 	var entry: Dictionary = values[id]
 	entry.romance = mini(100, int(entry.romance) + 5)

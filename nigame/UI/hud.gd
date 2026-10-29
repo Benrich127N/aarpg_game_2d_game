@@ -2,6 +2,7 @@ extends CanvasLayer
 
 var cash_label: Label
 var time_label: Label
+var location_label: Label
 var bars: Dictionary = {}
 var prompt: Label
 var toast: Label
@@ -9,15 +10,20 @@ var toast_timer: Timer
 var pause_overlay: ColorRect
 var settings_label: Label
 var resume_button: Button
+var pause_notice: Label
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	add_to_group("hud")
 	_build_ui()
 	Global.stats_changed.connect(_update_stats)
 	TimeManager.time_changed.connect(_update_time)
+	Game.scenes.location_changed.connect(_update_location)
+	Game.housing.changed.connect(_update_location)
+	_update_location()
 	_update_stats()
 	_update_time()
-	notify("Welcome. Explore the practice street with WASD or arrow keys.")
+	notify("Welcome home. Use E near the bed or street door. I: bag · J: quests · P: contacts · C: career · K: save")
 
 func _build_ui() -> void:
 	var root: Control = $MainUI
@@ -30,6 +36,15 @@ func _build_ui() -> void:
 	root.add_child(margin)
 	var panel := PanelContainer.new()
 	margin.add_child(panel)
+	var panel_style := StyleBoxFlat.new()
+	panel_style.bg_color = Color("182a24")
+	panel_style.content_margin_left = 14
+	panel_style.content_margin_right = 14
+	panel_style.content_margin_top = 10
+	panel_style.content_margin_bottom = 10
+	panel_style.corner_radius_bottom_left = 8
+	panel_style.corner_radius_bottom_right = 8
+	panel.add_theme_stylebox_override("panel", panel_style)
 	var column := VBoxContainer.new()
 	column.add_theme_constant_override("separation", 8)
 	panel.add_child(column)
@@ -38,6 +53,10 @@ func _build_ui() -> void:
 	cash_label = Label.new()
 	cash_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	top.add_child(cash_label)
+	location_label = Label.new()
+	location_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	location_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	top.add_child(location_label)
 	time_label = Label.new()
 	top.add_child(time_label)
 	var needs := HBoxContainer.new()
@@ -52,6 +71,9 @@ func _build_ui() -> void:
 		item.add_child(title)
 		var bar := ProgressBar.new()
 		bar.custom_minimum_size.y = 20
+		var fill := StyleBoxFlat.new()
+		fill.bg_color = {"Energy": Color("7dad86"), "Hunger": Color("d6b45f"), "Health": Color("cb8179")}[stat]
+		bar.add_theme_stylebox_override("fill", fill)
 		item.add_child(bar)
 		bars[stat] = bar
 	prompt = Label.new()
@@ -88,6 +110,10 @@ func _build_ui() -> void:
 	title.text = "LAGOS LIFE · PAUSED"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	menu.add_child(title)
+	pause_notice = Label.new()
+	pause_notice.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	pause_notice.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	menu.add_child(pause_notice)
 	resume_button = Button.new()
 	resume_button.text = "Resume"
 	resume_button.pressed.connect(func() -> void: set_paused(false))
@@ -101,10 +127,27 @@ func _build_ui() -> void:
 	settings_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	settings_label.hide()
 	menu.add_child(settings_label)
+	var save_button := Button.new()
+	save_button.text = "Save game"
+	save_button.pressed.connect(func() -> void:
+		if is_instance_valid(Game.ui): Game.ui.manual_save())
+	menu.add_child(save_button)
+	var load_button := Button.new()
+	load_button.text = "Load saved game"
+	load_button.pressed.connect(func() -> void:
+		set_paused(false)
+		if is_instance_valid(Game.ui): Game.ui.manual_load())
+	menu.add_child(load_button)
+	var fresh_button := Button.new()
+	fresh_button.text = "New game"
+	fresh_button.pressed.connect(func() -> void:
+		set_paused(false)
+		if is_instance_valid(Game.ui): Game.ui.new_game_prompt())
+	menu.add_child(fresh_button)
 	pause_overlay.hide()
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event.is_action_pressed("pause"):
+	if event.is_action_pressed("pause") and not Game.modal_open:
 		set_paused(not get_tree().paused)
 		get_viewport().set_input_as_handled()
 
@@ -112,6 +155,7 @@ func set_paused(value: bool) -> void:
 	get_tree().paused = value
 	pause_overlay.visible = value
 	if value:
+		pause_notice.text = ""
 		resume_button.grab_focus()
 	else:
 		resume_button.release_focus()
@@ -121,6 +165,7 @@ func set_interaction_prompt(text: String) -> void:
 	prompt.text = text
 
 func notify(message: String) -> void:
+	if get_tree().paused and is_instance_valid(pause_notice): pause_notice.text = message
 	toast.text = message
 	toast.show()
 	toast_timer.start()
@@ -142,3 +187,7 @@ func format_cash(amount: int) -> String:
 			result += ","
 		result += digits[index]
 	return result
+
+func _update_location() -> void:
+	if not is_instance_valid(location_label): return
+	location_label.text = str(Game.housing.catalog[Game.housing.current].title) if Game.scenes.location == "room" else str(Game.scenes.DESTINATIONS[Game.scenes.location].title)

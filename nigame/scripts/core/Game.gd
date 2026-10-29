@@ -77,6 +77,7 @@ func reset() -> void:
 	jobs.stock_order = []
 	jobs.stock_index = 0
 	jobs.delivery_checkpoint = false
+	jobs.delivery_received = false
 	relationships.values = {}
 	relationships.greeted_day = {}
 	quests.objectives = {}
@@ -91,6 +92,6 @@ func reset() -> void:
 	progression.achievements = {}
 	scenes.location = "room"
 	scenes.spawn = "PlayerSpawn"
-	scenes.pending_position = Vector2(-1, -1)
+	scenes.pending_position = Vector2(448, 448)
 	Global.stats_changed.emit()
 	TimeManager.time_changed.emit()

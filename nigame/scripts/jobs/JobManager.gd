@@ -9,6 +9,7 @@ var attempts: int = 0
 var stock_order: Array = []
 var stock_index: int = 0
 var delivery_checkpoint: bool = false
+var delivery_received: bool = false
 
 func _ready() -> void:
 	for id in ["delivery", "stock"]:
@@ -37,6 +38,7 @@ func start(id: String) -> bool:
 	stock_order.shuffle()
 	stock_index = 0
 	delivery_checkpoint = false
+	delivery_received = false
 	changed.emit()
 	return true
 
@@ -49,6 +51,7 @@ func pickup_parcel() -> bool:
 func deliver_to(npc_id: String) -> bool:
 	if npc_id != "bisi" or active.get("id", "") != "delivery" or not delivery_checkpoint:
 		return false
+	delivery_received = true
 	return finish(int(active.token), true)
 
 func match_stock(item: String) -> bool:
@@ -66,7 +69,7 @@ func match_stock(item: String) -> bool:
 func finish(token: int, success: bool) -> bool:
 	if active.is_empty() or int(active.token) != token: return false
 	var id: String = active.id
-	if success and id == "delivery" and not delivery_checkpoint: return false
+	if success and id == "delivery" and (not delivery_checkpoint or not delivery_received): return false
 	if success and id == "stock" and stock_index != stock_order.size(): return false
 	var data: Resource = catalog[id]
 	if success and Global.cash > 9223372036854775807 - int(data.pay): return false

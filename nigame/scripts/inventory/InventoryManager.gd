@@ -16,7 +16,9 @@ func can_add(id: String, count: int) -> bool:
 		return false
 	if not items.has(id) and items.size() >= CAPACITY:
 		return false
-	return int(items.get(id, 0)) + count <= int(catalog[id].stack_limit)
+	var limit: int = int(catalog[id].stack_limit)
+	var current: int = int(items.get(id, 0))
+	return count <= limit and current >= 0 and current <= limit - count
 
 func add(id: String, count: int = 1) -> bool:
 	if not can_add(id, count):

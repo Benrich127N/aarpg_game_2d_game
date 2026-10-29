@@ -35,3 +35,6 @@ A fresh game lets a tester wake, leave the room, talk, complete a job, receive p
 Additional districts and transport, driving/traffic AI, businesses/investments, property buying/furniture, recurring rent, romance/family, deep relationships/quests, dynamic crowds/weather, clothing customization, a full phone, gamepad, and mobile controls. Revisit these after the saved daily loop works. Use original or licensed assets tracked in [the asset log](ASSET_LICENSES.md).
 
 Schedule and milestone checks: [MVP plan](MVP_Plan.md).
+
+
+Implementation update: the subsequent request for Steps 6–15 added small district, progression, housing and relationship/quest prototypes after the saved daily loop passed integration checks. See [the implementation notes](Steps_6_to_15.md) for the current playable scope; the release target above remains the baseline.

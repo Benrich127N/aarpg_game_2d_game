@@ -87,5 +87,3 @@ func _ready() -> void:
 		check(hud.get_node("MainUI").size.x > 0 and hud.time_label.get_global_rect().end.x <= hud.get_node("MainUI").size.x, "HUD fits window width")
 	print("STEPS 3–5: ", "PASS" if failures == 0 else "FAIL (%d)" % failures)
 	get_tree().quit(0 if failures == 0 else 1)
-
-
