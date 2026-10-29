@@ -20,6 +20,8 @@ func _ready() -> void:
 	TimeManager.time_changed.connect(_update_time)
 	Game.scenes.location_changed.connect(_update_location)
 	Game.housing.changed.connect(_update_location)
+	Game.settings.changed.connect(_apply_accessibility)
+	_apply_accessibility()
 	_update_location()
 	_update_stats()
 	_update_time()
@@ -80,8 +82,9 @@ func _build_ui() -> void:
 	prompt.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
 	prompt.offset_top = -58
 	prompt.offset_bottom = -22
+	prompt.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	prompt.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	prompt.text = "WASD / arrows: move   ·   E: interact   ·   Esc: pause"
+	prompt.text = "WASD / arrows · move   E · interact   Tab · phone   Esc · pause"
 	root.add_child(prompt)
 	toast = Label.new()
 	toast.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
@@ -120,7 +123,7 @@ func _build_ui() -> void:
 	menu.add_child(resume_button)
 	var settings := Button.new()
 	settings.text = "Settings"
-	settings.pressed.connect(func() -> void: settings_label.visible = not settings_label.visible)
+	settings.pressed.connect(func() -> void: Game.ui.settings_menu())
 	menu.add_child(settings)
 	settings_label = Label.new()
 	settings_label.text = "Settings placeholder\nAudio and control options are coming later."
@@ -144,6 +147,18 @@ func _build_ui() -> void:
 		set_paused(false)
 		if is_instance_valid(Game.ui): Game.ui.new_game_prompt())
 	menu.add_child(fresh_button)
+	var credits_button := Button.new()
+	credits_button.text = "Credits"
+	credits_button.pressed.connect(func() -> void: Game.ui.credits())
+	menu.add_child(credits_button)
+	var title_button := Button.new()
+	title_button.text = "Save and return to title"
+	title_button.pressed.connect(func() -> void:
+		if Game.save.write_save():
+			set_paused(false)
+			get_tree().change_scene_to_file("res://Scenes/ui/MainMenu.tscn")
+		else: notify(Game.save.last_error))
+	menu.add_child(title_button)
 	pause_overlay.hide()
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -191,3 +206,8 @@ func format_cash(amount: int) -> String:
 func _update_location() -> void:
 	if not is_instance_valid(location_label): return
 	location_label.text = str(Game.housing.catalog[Game.housing.current].title) if Game.scenes.location == "room" else str(Game.scenes.DESTINATIONS[Game.scenes.location].title)
+
+func _apply_accessibility() -> void:
+	var theme := Theme.new()
+	theme.default_font_size = int(16 * float(Game.settings.values.text_scale))
+	$MainUI.theme = theme

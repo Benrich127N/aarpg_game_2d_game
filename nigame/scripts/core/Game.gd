@@ -9,8 +9,13 @@ var housing: Node
 var progression: Node
 var scenes: Node
 var save: Node
+var events: Node
+var wardrobe: Node
+var settings: Node
+var audio: Node
 var ui: Node
 var player: CharacterBody2D
+var scene_load_ms: Array = []
 var auto_load: bool = true
 var booted: bool = false
 var modal_open: bool = false
@@ -23,6 +28,7 @@ func service(path: String, service_name: String) -> Node:
 	return node
 
 func _ready() -> void:
+	if DisplayServer.get_name() != "headless": DisplayServer.window_set_title("Lagos Life Simulator")
 	inventory = service("res://scripts/inventory/InventoryManager.gd", "InventoryManager")
 	jobs = service("res://scripts/jobs/JobManager.gd", "JobManager")
 	relationships = service("res://scripts/relationships/RelationshipManager.gd", "RelationshipManager")
@@ -32,6 +38,11 @@ func _ready() -> void:
 	progression = service("res://scripts/economy/SocialClassManager.gd", "SocialClassManager")
 	scenes = service("res://scripts/core/SceneManager.gd", "SceneManager")
 	save = service("res://scripts/save/SaveManager.gd", "SaveManager")
+	events = service("res://scripts/events/EventManager.gd", "EventManager")
+	wardrobe = service("res://scripts/characters/WardrobeManager.gd", "WardrobeManager")
+	settings = service("res://scripts/ui/SettingsManager.gd", "SettingsManager")
+	audio = service("res://scripts/audio/AudioManager.gd", "AudioManager")
+	service("res://scripts/core/ControllerBindings.gd", "ControllerBindings")
 	jobs.job_completed.connect(_job_finished)
 	inventory.item_purchased.connect(func(_id: String, _count: int) -> void: quests.record("buy"))
 	inventory.item_used.connect(func(_id: String) -> void: quests.record("eat"))
@@ -93,5 +104,7 @@ func reset() -> void:
 	scenes.location = "room"
 	scenes.spawn = "PlayerSpawn"
 	scenes.pending_position = Vector2(448, 448)
+	events.reset()
+	wardrobe.reset()
 	Global.stats_changed.emit()
 	TimeManager.time_changed.emit()

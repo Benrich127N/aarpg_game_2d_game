@@ -1,0 +1,8 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+[ext_resource type="Script" path="res://resources/characters/NPCSchedule.gd" id="1"]
+[resource]
+script = ExtResource("1")
+npc_id = "sade"
+work = Vector2(960, 416)
+lunch = Vector2(880, 448)
+home = Vector2(448, 416)

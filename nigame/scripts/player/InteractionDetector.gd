@@ -22,7 +22,7 @@ func _physics_process(_delta: float) -> void:
 	else:
 		target = choose(get_overlapping_areas())
 	if is_instance_valid(Game.ui):
-		Game.ui.set_prompt("[E] " + target.title if is_instance_valid(target) else "WASD / arrows · move    I · bag    J · journal    P · contacts    Esc · menu")
+		Game.ui.set_prompt("[E] " + target.title if is_instance_valid(target) else "E / A · interact   I / X · bag   Tab / Y · phone   Esc / B · menu")
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact") and not Global.input_blocked and not get_tree().paused:

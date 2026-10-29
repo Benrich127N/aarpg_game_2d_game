@@ -1,5 +1,7 @@
 # Steps 6–15 — playable prototype
 
+Historical milestone notes: the current release adds events/schedules, replaces the player art, adds phone/wardrobe/settings, uses save schema 3, and starts at a title screen. See [Steps 16–19](Steps_16_to_19.md) for current behaviour.
+
 Run `project.godot` and press F5. The entry scene is now `scenes/main/Main.tscn`. The older `Scenes/test_world.tscn` remains the movement regression sandbox. New systems are small working prototypes, with procedural art and short fictional dialogue rather than final content.
 
 ## Controls and first day

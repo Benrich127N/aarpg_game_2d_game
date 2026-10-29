@@ -1,7 +1,7 @@
-project: Lagos Life Simulator  
-type: roadmap  
-engine: Godot 4.x  
-status: in-progress  
+project: Lagos Life Simulator
+type: roadmap
+engine: Godot 4.x
+status: in-progress
 tags:
 
 ● godot
@@ -12,11 +12,11 @@ tags:
 
 ● roadmap
 
-  
+
 
 Lagos Life Simulator | Master Roadmap
 
-> [!abstract] Project goal  
+> [!abstract] Project goal
 > Build a top down 2D Lagos life sim. First release target: one street, five NPCs, two jobs, two shops, one room, working needs, dialogue, and save/load.
 
 Companion: [[02 - Step by Step Development Guide]]
@@ -37,7 +37,7 @@ Return home and sleep
 
 Save, quit, reopen, and continue
 
-> [!important] Scope rule  
+> [!important] Scope rule
 > Finish the first complete day before expanding into multiple districts, romance, vehicles, or businesses.
 
 Progress dashboard
@@ -59,10 +59,10 @@ Progress dashboard
 | 12 Progression and Economy       | 🟨 Prototype implemented; review pending | 6 tasks     |     |
 | 13 Housing and Furniture         | 🟨 Prototype implemented; review pending | 6 tasks     |     |
 | 14 Relationships and Quests      | 🟨 Prototype implemented; review pending | 6 tasks     |     |
-| 15 Events and NPC Schedules      | ⬜ Not started | 6 tasks     |     |
-| 16 Customization and Phone       | ⬜ Not started | 6 tasks     |     |
-| 17 Audio and Polish              | ⬜ Not started | 6 tasks     |     |
-| 18 QA Performance and Release    | ⬜ Not started | 7 tasks     |     |
+| 15 Events and NPC Schedules      | 🟨 Implemented; playtest pending | 6 tasks     |     |
+| 16 Customization and Phone       | 🟨 Implemented; playtest pending | 6 tasks     |     |
+| 17 Audio and Polish              | 🟨 Implemented; playtest pending | 6 tasks     |     |
+| 18 QA Performance and Release    | 🟨 Windows candidate; external QA pending | 7 tasks     |     |
 
 Full task checklist
 
@@ -344,67 +344,72 @@ Implementation, controls, save schema and verification: [Steps 6–15 notes](doc
 
 Detailed instructions: [[02 - Step by Step Development Guide#Step 16 — Events and NPC Schedules]]
 
-Create EventManager and eligibility rules
+- [x] Create EventManager and eligibility rules
 
-Add rain traffic and chance encounters
+- [x] Add rain traffic and chance encounters
 
-Implement event cooldowns and choices
+- [x] Implement event cooldowns and choices
 
-Create NPC daily schedule data
+- [x] Create NPC daily schedule data
 
-Implement NavigationAgent2D for local movement
+- [x] Implement NavigationAgent2D for local movement
 
-Use lightweight offscreen NPC simulation
+- [x] Use lightweight offscreen NPC simulation
 
 16 · Customization and Phone
 
 Detailed instructions: [[02 - Step by Step Development Guide#Step 17 — Customization and Phone]]
 
-Build layered player sprite clothing system
+- [x] Build layered player sprite clothing system
 
-Create clothing inventory and shop
+- [x] Create clothing inventory and shop
 
-Create character customization menu
+- [x] Create character customization menu
 
-Build PhoneUI with bank contacts jobs map quests
+- [x] Build PhoneUI with bank contacts jobs map quests
 
-Persist outfit and phone state
+- [x] Persist outfit and phone state
 
-Test layer alignment in all movement directions
+- [x] Test layer alignment in all movement directions
 
 17 · Audio and Polish
 
 Detailed instructions: [[02 - Step by Step Development Guide#Step 18 — Audio and Polish]]
 
-Add original or licensed Nigerian inspired music
+- [x] Add original or licensed Nigerian inspired music
 
-Add market traffic rain and room ambience
+- [x] Add market traffic rain and room ambience
 
-Add SFX buses footsteps and UI
+- [x] Add SFX buses footsteps and UI
 
-Add day night lighting and streetlights
+- [x] Add day night lighting and streetlights
 
-Improve dialogue feedback animations and accessibility
+- [x] Improve dialogue feedback animations and accessibility
 
-Add asset credits and audio controls
+- [x] Add asset credits and audio controls
 
 18 · QA Performance and Release
 
 Detailed instructions: [[02 - Step by Step Development Guide#Step 19 — QA Performance and Release]]
 
-Test all transactions and save edge cases
+- [x] Test all transactions and save edge cases
 
-Profile memory FPS and scene load times
+- [x] Profile memory FPS and scene load times
 
-Test gamepad and keyboard controls
+- [x] Test gamepad and keyboard controls (synthetic input; physical controller review pending)
 
-Add title screen settings credits and pause
+- [x] Add title screen settings credits and pause
 
-Export Windows build and test outside editor
+- [x] Export Windows build and test outside editor
 
-Package release and collect tester feedback
+- [x] Package Windows release candidate
+- [ ] Collect external tester feedback
 
-Fix blockers and prepare first release
+- [x] Fix detected automated-test/export blockers and prepare release candidate
+
+- [ ] Validate on a separate clean Windows machine and close external playtest blockers before public release
+
+Controls, implementation and build instructions: [Steps 16–19](docs/Steps_16_to_19.md). Measured results and artifact details: [Release QA](docs/Release_QA.md). Candidate packaging and local QA are complete; external feedback and clean-machine/physical-controller testing remain open. No public release or Git commit is claimed.
 
 Suggested checkpoints
 

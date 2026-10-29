@@ -1,11 +1,11 @@
 extends Node
 signal location_changed
 const DESTINATIONS: Dictionary = {
-	"mainland": {"title": "Mainland", "path": "res://scenes/world/mainland/Mainland.tscn", "fare": 100, "minutes": 30, "tier": 0},
-	"business": {"title": "Business District", "path": "res://scenes/world/business_district/BusinessDistrict.tscn", "fare": 300, "minutes": 60, "tier": 1},
-	"lekki": {"title": "Lekki", "path": "res://scenes/world/lekki/Lekki.tscn", "fare": 500, "minutes": 90, "tier": 1},
-	"island": {"title": "Island", "path": "res://scenes/world/island/Island.tscn", "fare": 800, "minutes": 120, "tier": 2},
-	"room": {"title": "Home", "path": "res://scenes/world/room/Room.tscn", "fare": 0, "minutes": 0, "tier": 0}}
+	"mainland": {"title": "Mainland", "path": "res://Scenes/world/mainland/Mainland.tscn", "fare": 100, "minutes": 30, "tier": 0},
+	"business": {"title": "Business District", "path": "res://Scenes/world/business_district/BusinessDistrict.tscn", "fare": 300, "minutes": 60, "tier": 1},
+	"lekki": {"title": "Lekki", "path": "res://Scenes/world/lekki/Lekki.tscn", "fare": 500, "minutes": 90, "tier": 1},
+	"island": {"title": "Island", "path": "res://Scenes/world/island/Island.tscn", "fare": 800, "minutes": 120, "tier": 2},
+	"room": {"title": "Home", "path": "res://Scenes/world/room/Room.tscn", "fare": 0, "minutes": 0, "tier": 0}}
 var location: String = "room"
 var spawn: String = "PlayerSpawn"
 var pending_position: Vector2 = Vector2(-1, -1)
@@ -31,7 +31,9 @@ func travel(target: String, doorway: bool = false) -> bool:
 	location = target
 	spawn = "DoorSpawn" if doorway and target == "mainland" else "PlayerSpawn"
 	pending_position = Vector2(-1, -1)
-	if not doorway: TimeManager.advance_minutes(int(DESTINATIONS[target].minutes))
+	if not doorway:
+		Game.audio.sfx("bus")
+		TimeManager.advance_minutes(int(DESTINATIONS[target].minutes) + (20 if Game.events.state.weather == "traffic" else 0))
 	location_changed.emit()
 	busy = false
 	Game.message("Arrived: " + str(DESTINATIONS[target].title))

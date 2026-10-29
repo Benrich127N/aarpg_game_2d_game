@@ -6,11 +6,19 @@ var body: VBoxContainer
 var first_button: Button
 var status_label: Label
 var last_notice: String = ""
+var title_mode: bool = false
+var phone_view: Node
+var settings_view: Node
 
 func _ready() -> void:
 	layer = 20
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	Game.ui = self
+	phone_view = preload("res://Scenes/ui/PhoneUI.tscn").instantiate()
+	add_child(phone_view)
+	settings_view = preload("res://Scenes/ui/SettingsMenu.tscn").instantiate()
+	add_child(settings_view)
+	Game.settings.changed.connect(_apply_settings)
 	overlay = ColorRect.new()
 	overlay.color = Color(0.025, 0.045, 0.035, 0.94)
 	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -27,6 +35,7 @@ func _ready() -> void:
 	scroll.add_child(content)
 	overlay.hide()
 	Game.message_sent.connect(_message)
+	_apply_settings()
 
 func _exit_tree() -> void:
 	if Game.ui == self: Game.ui = null
@@ -37,8 +46,8 @@ func _input(event: InputEvent) -> void:
 			close()
 			get_viewport().set_input_as_handled()
 		return
-	if get_tree().paused: return
-	for binding in [["inventory", "bag"], ["journal", "journal"], ["contacts", "contacts"], ["career", "career"]]:
+	if get_tree().paused or title_mode: return
+	for binding in [["phone", "phone"], ["wardrobe", "wardrobe"], ["inventory", "bag"], ["journal", "journal"], ["contacts", "contacts"], ["career", "career"]]:
 		if event.is_action_pressed(binding[0]):
 			perform(binding[1], "")
 			get_viewport().set_input_as_handled()
@@ -57,7 +66,7 @@ func frame(title: String, description: String = "") -> void:
 	first_button = null
 	heading = Label.new()
 	heading.text = title
-	heading.add_theme_font_size_override("font_size", 28)
+	heading.add_theme_font_size_override("font_size", int(28 * float(Game.settings.values.text_scale)))
 	content.add_child(heading)
 	status_label = Label.new()
 	status_label.text = last_notice
@@ -82,6 +91,7 @@ func button(text: String, action: Callable, disabled: bool = false) -> Button:
 	control.text = text
 	control.custom_minimum_size.y = 42
 	control.disabled = disabled
+	control.pressed.connect(func() -> void: Game.audio.sfx("click"))
 	control.pressed.connect(action)
 	body.add_child(control)
 	if first_button == null and not disabled:
@@ -94,6 +104,9 @@ func _focus_first() -> void:
 		first_button.grab_focus()
 
 func close() -> void:
+	if title_mode:
+		title_screen()
+		return
 	overlay.hide()
 	Game.close_modal()
 
@@ -135,6 +148,9 @@ func perform(kind: String, id: String) -> void:
 		"journal": journal()
 		"contacts": contacts()
 		"career": career()
+		"phone": phone_view.show_tab(Game.wardrobe.state.phone_tab)
+		"wardrobe": wardrobe()
+		"clothes": clothing_shop()
 
 func dialogue(id: String) -> void:
 	if not Game.dialogue.data.has(id): return
@@ -170,7 +186,7 @@ func job(id: String) -> void:
 	frame(data.title, "Pay ₦%d · Energy %d · Duration %d minutes" % [data.pay, data.energy, data.minutes])
 	if Game.jobs.active.get("id", "") == id:
 		if id == "stock":
-			var minigame: VBoxContainer = preload("res://scenes/minigames/StockMinigame.tscn").instantiate()
+			var minigame: VBoxContainer = preload("res://Scenes/minigames/StockMinigame.tscn").instantiate()
 			minigame.selected.connect(func(item: String) -> void:
 				Game.jobs.match_stock(item)
 				if Game.jobs.active.is_empty():
@@ -179,7 +195,7 @@ func job(id: String) -> void:
 				else: job(id))
 			body.add_child(minigame)
 		else:
-			var minigame: VBoxContainer = preload("res://scenes/minigames/DeliveryMinigame.tscn").instantiate()
+			var minigame: VBoxContainer = preload("res://Scenes/minigames/DeliveryMinigame.tscn").instantiate()
 			minigame.cancelled.connect(func() -> void:
 				Game.jobs.cancel()
 				close())
@@ -292,3 +308,92 @@ func new_game_prompt() -> void:
 		close()
 		Game.reset()
 		Game.scenes.location_changed.emit())
+
+func _apply_settings() -> void:
+	if not is_instance_valid(overlay): return
+	var theme := Theme.new()
+	theme.default_font_size = int(18 * float(Game.settings.values.text_scale))
+	overlay.theme = theme
+
+func settings_menu() -> void:
+	settings_view.show_panel()
+
+func wardrobe() -> void:
+	frame("Wardrobe", "Your owned shirts and free character options. Buy more colours at the mainland clothing stall.")
+	if is_instance_valid(Game.player):
+		var preview := Control.new()
+		preview.custom_minimum_size = Vector2(0, 144)
+		preview.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		body.add_child(preview)
+		for layer in Game.player.layers:
+			var image := TextureRect.new()
+			image.texture = layer.sprite_frames.get_frame_texture("idle_down", 0)
+			image.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			image.set_anchors_and_offsets_preset(Control.PRESET_CENTER_TOP)
+			image.offset_left = -48
+			image.offset_right = 48
+			image.offset_bottom = 144
+			image.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			preview.add_child(image)
+	for id in Game.wardrobe.state.owned:
+		button("Wear " + str(Game.wardrobe.CLOTHES[id].title) + (" · equipped" if Game.wardrobe.state.shirt == id else ""), func() -> void:
+			Game.wardrobe.equip(id)
+			wardrobe())
+	for part in ["skin", "hair", "shoes"]:
+		button("%s style %d · change" % [part.capitalize(), int(Game.wardrobe.state[part]) + 1], func() -> void:
+			Game.wardrobe.customize(part, (int(Game.wardrobe.state[part]) + 1) % 3)
+			wardrobe())
+
+func clothing_shop() -> void:
+	frame("Clothing stall", "Cash ₦%d · Owned outfits remain available in your wardrobe (O)." % Global.cash)
+	for id in Game.wardrobe.CLOTHES:
+		if id == "green": continue
+		button("%s · ₦%d%s" % [Game.wardrobe.CLOTHES[id].title, Game.wardrobe.CLOTHES[id].price, " · owned" if id in Game.wardrobe.state.owned else ""], func() -> void:
+			result(Game.wardrobe.buy(id), "Shirt purchased.")
+			clothing_shop(), id in Game.wardrobe.state.owned)
+	button("Open wardrobe", wardrobe)
+
+func event_panel() -> void:
+	var id: String = Game.events.state.pending
+	if not Game.events.EVENTS.has(id):
+		frame("Neighbourhood", "No pending event. Explore the street and check back later.")
+		return
+	var data: Dictionary = Game.events.EVENTS[id]
+	frame(data.title, data.text)
+	button("Help" if id == "neighbour" else "Wait it out", func() -> void:
+		result(Game.events.resolve(true), "Thanks for taking a moment.")
+		event_panel())
+	button("Carry on", func() -> void:
+		Game.events.resolve(false)
+		close())
+
+func credits() -> void:
+	frame("Credits", "Lagos Life Simulator · Prototype\nA fictional neighbourhood life sim.\nOriginal procedural character layers, environment shapes, icon, sound design, syncopated music cue and dialogue were created for this project.\nBuilt with Godot Engine (MIT licence). The licence and third-party engine notices are included with the release.\nThe earlier unverified prototype sprite is excluded from release packages.")
+
+func title_screen() -> void:
+	frame("LAGOS LIFE SIMULATOR", "One street. A fresh start. Build your day, one choice at a time.")
+	# A title screen has no gameplay behind it to close into.
+	for child in body.get_children():
+		if child is Button and child.text == "Close · Esc":
+			body.remove_child(child)
+			child.queue_free()
+	first_button = null
+	button("Continue", func() -> void: start_game(false), Game.save.read_state(Game.save.path) == null and Game.save.read_state(Game.save.path + ".bak") == null)
+	button("New game", func() -> void:
+		frame("Start fresh?", "Your previous save stays on disk until the next manual save or autosave.")
+		button("Start new game", func() -> void: start_game(true)))
+	button("Settings", settings_menu)
+	button("Credits", credits)
+	button("Quit", func() -> void: get_tree().quit())
+
+func start_game(fresh: bool) -> void:
+	title_mode = false
+	close()
+	get_tree().paused = false
+	if fresh:
+		Game.reset()
+		Game.booted = true
+	else:
+		Game.booted = false
+		Game.auto_load = true
+	get_tree().change_scene_to_file("res://Scenes/main/Main.tscn")

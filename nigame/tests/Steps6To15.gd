@@ -25,7 +25,7 @@ func _ready() -> void:
 	Game.save.enabled = false
 	Game.reset()
 	TimeManager.clock_paused = true
-	var main: Node2D = preload("res://scenes/main/Main.tscn").instantiate()
+	var main: Node2D = preload("res://Scenes/main/Main.tscn").instantiate()
 	main.process_mode = Node.PROCESS_MODE_PAUSABLE
 	add_child(main)
 	await get_tree().physics_frame

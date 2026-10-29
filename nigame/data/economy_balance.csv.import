@@ -1,19 +1,2 @@
 [remap]
-
-importer="csv_translation"
-type="Translation"
-uid="uid://4yltrqsexetc"
-
-[deps]
-
-files=["res://data/economy_balance.id.translation", "res://data/economy_balance.pay.translation", "res://data/economy_balance.energy.translation", "res://data/economy_balance.minutes.translation", "res://data/economy_balance.cooldown.translation", "res://data/economy_balance.requirements.translation"]
-
-source_file="res://data/economy_balance.csv"
-dest_files=["res://data/economy_balance.id.translation", "res://data/economy_balance.pay.translation", "res://data/economy_balance.energy.translation", "res://data/economy_balance.minutes.translation", "res://data/economy_balance.cooldown.translation", "res://data/economy_balance.requirements.translation"]
-
-[params]
-
-compress=1
-delimiter=0
-unescape_keys=false
-unescape_translations=true
+importer="keep"

@@ -27,7 +27,7 @@ func _ready() -> void:
 		get_tree().quit(0 if saved else 1)
 	else:
 		Game.auto_load = true
-		var main: Node2D = preload("res://scenes/main/Main.tscn").instantiate()
+		var main: Node2D = preload("res://Scenes/main/Main.tscn").instantiate()
 		add_child(main)
 		await get_tree().physics_frame
 		var restored: bool = Global.cash == 6543 and Global.hunger == 47 and TimeManager.current_day == 3 and TimeManager.current_hour == 21

@@ -3,7 +3,7 @@ signal changed
 var achievements: Dictionary = {}
 
 func net_worth() -> int:
-	return Global.cash + (30000 if bool(Game.housing.owned.get("apartment", false)) else 0)
+	return Global.cash + int(Game.wardrobe.state.bank) + (30000 if bool(Game.housing.owned.get("apartment", false)) else 0)
 
 func tier() -> int:
 	if net_worth() >= 100000 and Global.reputation >= 40 and Game.jobs.completed >= 10: return 2

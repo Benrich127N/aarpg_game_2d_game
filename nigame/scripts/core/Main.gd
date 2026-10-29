@@ -12,6 +12,7 @@ func _ready() -> void:
 	if district == null: rebuild_world()
 
 func rebuild_world() -> void:
+	var load_start: int = Time.get_ticks_usec()
 	var old_position: Vector2 = $Player.position
 	var previous: String = str(district.get("district_id")) if is_instance_valid(district) else ""
 	if is_instance_valid(district):
@@ -30,6 +31,8 @@ func rebuild_world() -> void:
 		$Player.position = district.get_node(Game.scenes.spawn).position
 	$Player/Camera2D.reset_smoothing()
 	settle_frames = 2
+	Game.scene_load_ms.append(float(Time.get_ticks_usec() - load_start) / 1000.0)
+	if Game.scene_load_ms.size() > 100: Game.scene_load_ms.pop_front()
 
 func _refresh_home() -> void:
 	if Game.scenes.location == "room" and is_instance_valid(district):

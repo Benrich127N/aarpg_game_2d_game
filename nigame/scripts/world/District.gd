@@ -1,7 +1,7 @@
 extends Node2D
 @export var district_id: String = "mainland"
 const INTERACTABLE = preload("res://scripts/world/Interactable.gd")
-const NPC_SCENE = preload("res://scenes/npc/NPC.tscn")
+const NPC_SCENE = preload("res://Scenes/npc/NPC.tscn")
 var ground: TileMapLayer
 var obstacles: TileMapLayer
 var tint: CanvasModulate
@@ -23,7 +23,11 @@ func _ready() -> void:
 	add_child(tint)
 	TimeManager.time_changed.connect(_update_tint)
 	_update_tint()
-	if district_id != "room": _ambience()
+	if district_id == "mainland": _navigation()
+	if district_id != "room":
+		var effects: Node2D = load("res://scripts/world/StreetEffects.gd").new()
+		effects.name = "StreetEffects"
+		add_child(effects)
 
 func _build_tiles() -> void:
 	var image := Image.create(128, 32, false, Image.FORMAT_RGBA8)
@@ -98,6 +102,7 @@ func _mainland() -> void:
 	object("Your room", "door", "room", Vector2(320, 336))
 	object("Amara's food", "shop", "food", Vector2(640, 336), Color("ce7751"))
 	object("Sade's provisions", "shop", "kiosk", Vector2(960, 336), Color("7bb3a7"))
+	object("Clothing stall", "clothes", "", Vector2(800, 688), Color("a99ad0"))
 	object("Collect parcel", "parcel", "", Vector2(640, 688))
 	object("Stock shift", "job", "stock", Vector2(1440, 768))
 	object("Bus stop", "travel", "", Vector2(1632, 432), Color("e3bd45"))
@@ -139,23 +144,11 @@ func _update_tint() -> void:
 	var hour: int = TimeManager.current_hour
 	tint.color = Color("8492b0") if (hour >= 19 or hour < 6) and district_id != "room" else Color.WHITE
 
-func _ambience() -> void:
-	var stream := AudioStreamWAV.new()
-	stream.format = AudioStreamWAV.FORMAT_16_BITS
-	stream.mix_rate = 8000
-	stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
-	stream.loop_end = 8000
-	var bytes := PackedByteArray()
-	bytes.resize(16000)
-	var rng := RandomNumberGenerator.new()
-	rng.seed = 143
-	var last: float = 0
-	for index in range(8000):
-		last = last * 0.97 + rng.randf_range(-1, 1) * 0.03
-		bytes.encode_s16(index * 2, int(last * 1500))
-	stream.data = bytes
-	var audio := AudioStreamPlayer.new()
-	audio.stream = stream
-	audio.volume_db = -20
-	add_child(audio)
-	audio.play()
+func _navigation() -> void:
+	var region := NavigationRegion2D.new()
+	region.name = "NavigationRegion2D"
+	var polygon := NavigationPolygon.new()
+	polygon.vertices = PackedVector2Array([Vector2(64, 384), Vector2(1856, 384), Vector2(1856, 960), Vector2(64, 960)])
+	polygon.add_polygon(PackedInt32Array([0, 1, 2, 3]))
+	region.navigation_polygon = polygon
+	add_child(region)

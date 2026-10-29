@@ -1,5 +1,5 @@
 extends Node
-const VERSION: int = 2
+const VERSION: int = 3
 var path: String = "user://saves/slot_1.json"
 var enabled: bool = true
 var last_error: String = ""
@@ -16,7 +16,7 @@ func snapshot() -> Dictionary:
 		"relationships": Game.relationships.values.duplicate(true), "greeted": Game.relationships.greeted_day.duplicate(true),
 		"quests": Game.quests.objectives.duplicate(true), "claimed": Game.quests.claimed.duplicate(true),
 		"housing": {"current": Game.housing.current, "owned": Game.housing.owned.duplicate(true), "next_rent": Game.housing.next_rent_day, "arrears": Game.housing.arrears, "furniture": Game.housing.furniture.duplicate(true), "stored": Game.housing.stored},
-		"achievements": Game.progression.achievements.duplicate(true)}
+		"achievements": Game.progression.achievements.duplicate(true), "world": Game.events.state.duplicate(true), "character": Game.wardrobe.state.duplicate(true)}
 
 func number(value: Variant, minimum: int, maximum: int) -> bool:
 	return (value is int or value is float) and is_finite(float(value)) and float(value) == floor(float(value)) and value >= minimum and value <= maximum
@@ -29,7 +29,7 @@ func bool_map(value: Variant, keys: Array) -> bool:
 
 func valid(data: Variant) -> bool:
 	if not data is Dictionary or not number(data.get("version"), 1, VERSION): return false
-	for key in ["stats", "clock", "inventory", "jobs", "dialogue", "relationships", "greeted", "quests", "claimed", "housing", "achievements"]:
+	for key in ["stats", "clock", "inventory", "jobs", "dialogue", "relationships", "greeted", "quests", "claimed", "housing", "achievements", "world", "character"]:
 		if not data.get(key) is Dictionary: return false
 	for key in ["cash", "energy", "hunger", "health", "reputation"]:
 		if not number(data.stats.get(key), 0, 1000000000 if key == "cash" else 100): return false
@@ -81,6 +81,27 @@ func valid(data: Variant) -> bool:
 		var cell: Vector2i = Vector2i(int(entry.x), int(entry.y))
 		if cell in occupied: return false
 		occupied.append(cell)
+	var world: Dictionary = data.world
+	if not world.get("weather") in ["clear", "rain", "traffic"] or not world.get("pending") in ["", "rain", "traffic", "neighbour"]: return false
+	for key in ["until", "next_check", "roll"]:
+		if not number(world.get(key), 0, 2000000000): return false
+	if not world.get("cooldowns") is Dictionary or not world.get("positions") is Dictionary: return false
+	for id in world.cooldowns:
+		if not Game.events.EVENTS.has(id) or not number(world.cooldowns[id], 0, 2000000000): return false
+	for id in world.positions:
+		if not id in Game.relationships.NPC_IDS or not world.positions[id] is Array or world.positions[id].size() != 2: return false
+		for coordinate in world.positions[id]:
+			if not (coordinate is int or coordinate is float) or not is_finite(float(coordinate)) or coordinate < 32 or coordinate > 1900: return false
+	var character: Dictionary = data.character
+	if not character.get("owned") is Array or character.owned.size() > Game.wardrobe.CLOTHES.size() or character.owned.is_empty(): return false
+	var seen: Array = []
+	for id in character.owned:
+		if not Game.wardrobe.CLOTHES.has(id) or id in seen: return false
+		seen.append(id)
+	if not character.get("shirt") in character.owned: return false
+	for part in ["skin", "hair", "shoes"]:
+		if not number(character.get(part), 0, 2): return false
+	if not character.get("phone_tab") in ["home", "bank", "contacts", "jobs", "map", "quests"] or not number(character.get("bank"), 0, 1000000000): return false
 	return bool_map(data.achievements, ["First pay", "Reliable worker", "Professional", "Established"])
 
 func migration_defaults() -> Dictionary:
@@ -89,9 +110,9 @@ func migration_defaults() -> Dictionary:
 		"clock": {"day": 1, "hour": 7, "minute": 0}, "location": "room", "position": [448, 448],
 		"inventory": {}, "jobs": {"active": {}, "cooldowns": {}, "completed": 0, "attempts": 0, "order": [], "index": 0, "pickup": false},
 		"dialogue": {}, "relationships": {}, "greeted": {}, "quests": {}, "claimed": {},
-		"housing": {"current": "room", "owned": {}, "next_rent": 8, "arrears": 0, "furniture": [], "stored": 1}, "achievements": {}}
+		"housing": {"current": "room", "owned": {}, "next_rent": 8, "arrears": 0, "furniture": [], "stored": 1}, "achievements": {}, "world": {"weather": "clear", "until": 0, "pending": "", "cooldowns": {}, "next_check": 600, "roll": 0, "positions": {}}, "character": {"owned": ["green"], "shirt": "green", "skin": 1, "hair": 0, "shoes": 0, "phone_tab": "home", "bank": 0}}
 func migrate(data: Variant) -> Variant:
-	if data is Dictionary and data.get("version") == 1:
+	if data is Dictionary and data.get("version") in [1, 2]:
 		# Version 1 used the same core stats/clock/location; later systems get defaults.
 		var defaults: Dictionary = migration_defaults()
 		for key in defaults:
@@ -132,6 +153,10 @@ func apply(data: Dictionary) -> void:
 	Game.housing.furniture = data.housing.furniture.duplicate(true)
 	Game.housing.stored = int(data.housing.stored)
 	Game.progression.achievements = data.achievements.duplicate(true)
+	Game.events.state = data.world.duplicate(true)
+	Game.wardrobe.state = data.character.duplicate(true)
+	Game.wardrobe.changed.emit()
+	Game.events.changed.emit()
 	Game.scenes.location = data.location
 	Game.scenes.pending_position = Vector2(float(data.position[0]), float(data.position[1]))
 	Global.stats_changed.emit()
