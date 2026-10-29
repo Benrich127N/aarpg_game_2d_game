@@ -1,0 +1,14 @@
+kind,id,pay_or_cost,energy,minutes,cooldown,requirements
+job,delivery,750,10,30,120,none
+job,stock,1200,20,60,240,1 completed job
+food,gala,200,0,0,0,+25 hunger
+food,rice,500,0,0,0,+60 hunger +10 energy
+food,pure_water,50,0,0,0,+5 hunger +5 energy
+rent,room,700,0,0,10080,weekly
+rent,apartment,2500,0,0,10080,weekly
+purchase,apartment,30000,0,0,0,no arrears
+furniture,chair,400,0,0,0,max 12
+travel,mainland,100,0,30,0,none
+travel,business,300,0,60,0,professional
+travel,lekki,500,0,90,0,professional
+travel,island,800,0,120,0,established

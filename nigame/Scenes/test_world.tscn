@@ -1,20 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://cp6y4mw7ella3"]
+[gd_scene load_steps=4 format=3 uid="uid://cp6y4mw7ella3"]
 
-[ext_resource type="PackedScene" uid="uid://cxgq6h8ciyr2v" path="res://Scenes/player.tscn" id="1_skmq4"]
-[ext_resource type="PackedScene" uid="uid://0e24dsrf5pk6" path="res://UI/HUD.tscn" id="2_au00k"]
+[ext_resource type="PackedScene" path="res://Scenes/player.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://UI/HUD.tscn" id="2"]
+[ext_resource type="Script" path="res://Scenes/TestWorld.gd" id="3"]
 
 [node name="TestWorld" type="Node2D"]
+script = ExtResource("3")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = 1920.0
-offset_bottom = 1080.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.0188878, 0.397017, 0.10765, 1)
+[node name="Player" parent="." instance=ExtResource("1")]
+position = Vector2(640, 540)
 
-[node name="Player" parent="." instance=ExtResource("1_skmq4")]
-
-[node name="HUD" parent="." instance=ExtResource("2_au00k")]
+[node name="HUD" parent="." instance=ExtResource("2")]

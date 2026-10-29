@@ -1,45 +1,45 @@
 extends Node
 
-@onready var timer = Timer.new()
+signal time_changed
+signal day_changed(day: int)
 
-func _ready():
-	add_child(timer)
-	timer.wait_time = 1.0  # 1 real second = 1 game minute
-	timer.timeout.connect(_on_timer_timeout)
-	timer.start()
+const MINUTES_PER_DAY: int = 1440
+var current_day: int = 1
+var current_hour: int = 7
+var current_minute: int = 0
+var clock_paused: bool = false
+var elapsed_seconds: float = 0.0
+@export var seconds_per_minute: float = 1.0
 
-func _on_timer_timeout():
-	Global.current_minute += 1
-	
-	if Global.current_minute >= 60:
-		Global.current_minute = 0
-		Global.current_hour += 1
-		_on_hour_changed()
-	
-	if Global.current_hour >= 24:
-		Global.current_hour = 0
-		Global.current_day += 1
-		_on_day_changed()
-	
-	Global.emit_signal("time_changed")
+func _process(delta: float) -> void:
+	if clock_paused:
+		return
+	elapsed_seconds += delta
+	var interval: float = maxf(seconds_per_minute, 0.01)
+	var minutes: int = int(elapsed_seconds / interval)
+	if minutes > 0:
+		elapsed_seconds -= minutes * interval
+		advance_minutes(minutes)
 
-func _on_hour_changed():
-	# Streetlights at 6 PM
-	if Global.current_hour == 18:
-		# TODO: Turn on streetlights
-		pass
-	
-	# Decrease hunger over time
-	if Global.current_hour % 4 == 0:
-		Global.change_hunger(-10)
-
-func _on_day_changed():
-	# Reset energy if player slept
-	pass
+func advance_minutes(minutes: int) -> void:
+	if minutes <= 0:
+		return
+	var before: int = current_hour * 60 + current_minute
+	var total: int = before + minutes
+	var hunger_ticks: int = int(total / 240.0) - int(before / 240.0)
+	var days: int = int(total / float(MINUTES_PER_DAY))
+	current_day += days
+	var remaining: int = total % MINUTES_PER_DAY
+	current_hour = int(remaining / 60.0)
+	current_minute = remaining % 60
+	if hunger_ticks > 0:
+		Global.change_hunger(-mini(hunger_ticks, 10) * 10)
+	if days > 0:
+		day_changed.emit(current_day)
+	time_changed.emit()
 
 func get_time_string() -> String:
-	var period = "AM" if Global.current_hour < 12 else "PM"
-	var display_hour = Global.current_hour if Global.current_hour <= 12 else Global.current_hour - 12
-	if display_hour == 0:
-		display_hour = 12
-	return "%02d:%02d %s" % [display_hour, Global.current_minute, period]
+	var hour: int = current_hour % 12
+	if hour == 0:
+		hour = 12
+	return "%02d:%02d %s" % [hour, current_minute, "AM" if current_hour < 12 else "PM"]

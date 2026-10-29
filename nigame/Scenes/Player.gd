@@ -1,20 +1,22 @@
 extends CharacterBody2D
 
-const SPEED = 300.0
-@onready var anim_player = $AnimationPlayer
+@export var speed: float = 240.0
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+var facing: String = "down"
 
-func _physics_process(_delta):
-	var direction = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
-	
-	if direction:
-		velocity = direction * SPEED
-		anim_player.play("walk") # Start the walk loop
-	else:
-		velocity = velocity.move_toward(Vector2.ZERO, SPEED)
-		anim_player.stop() # Or play an "idle" animation
-		
+func _physics_process(_delta: float) -> void:
+	var direction: Vector2 = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	if Global.input_blocked:
+		direction = Vector2.ZERO
+	velocity = direction * speed
 	move_and_slide()
-	
-	# Flip sprite based on direction
-	if direction.x != 0:
-		$Sprite2D.flip_h = direction.x < 0
+	if direction != Vector2.ZERO:
+		if absf(direction.x) > absf(direction.y):
+			facing = "side"
+			sprite.flip_h = direction.x < 0
+		else:
+			facing = "up" if direction.y < 0 else "down"
+			sprite.flip_h = false
+		sprite.play("walk_" + facing)
+	else:
+		sprite.play("idle_" + facing)

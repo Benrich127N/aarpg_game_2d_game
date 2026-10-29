@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+[ext_resource type="Script" path="res://resources/jobs/JobData.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "stock"
+title = "Stock matching shift"
+pay = 1200
+energy = 20
+minutes = 60
+cooldown = 240
+required_jobs = 1

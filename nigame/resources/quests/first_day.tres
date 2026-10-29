@@ -1,0 +1,9 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+[ext_resource type="Script" path="res://resources/quests/QuestData.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "first_day"
+title = "Find your feet"
+description = "Meet Tunde, finish a job, buy food, eat, and sleep."
+objectives = PackedStringArray("talk:tunde", "job", "buy", "eat", "sleep")
+reward = 300

@@ -1,0 +1,7 @@
+{
+  "tunde": {"name":"Tunde", "role":"Delivery coordinator", "greeting":"Morning! A small parcel needs taking to Bisi. Pick it up at the parcel stand first.", "help":"Start a delivery here, collect the parcel, then find Bisi beside the kiosk."},
+  "amara": {"name":"Amara", "role":"Food vendor", "greeting":"Welcome. There is rice and stew today. Eat well before your next shift.", "help":"Buy food at my stall, then press I to eat from your bag."},
+  "sade": {"name":"Sade", "role":"Kiosk owner", "greeting":"Hello, neighbour. Water and a quick snack?", "help":"Small purchases help your needs. Check your cash before buying."},
+  "bisi": {"name":"Bisi", "role":"Neighbour · adult", "greeting":"Good to see you. I am sketching ideas for the courtyard garden.", "help":"The room is west of the food stall. Sleep there to start a fresh day."},
+  "femi": {"name":"Femi", "role":"Stock supervisor", "greeting":"I need someone careful with the stock. Match each requested item to its shelf.", "help":"Finish a delivery first, then try a stock shift. A wrong match ends the shift without pay."}
+}

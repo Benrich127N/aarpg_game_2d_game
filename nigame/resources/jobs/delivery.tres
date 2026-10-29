@@ -1,0 +1,11 @@
+[gd_resource type="Resource" load_steps=2 format=3]
+[ext_resource type="Script" path="res://resources/jobs/JobData.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = "delivery"
+title = "Neighbourhood delivery"
+pay = 750
+energy = 10
+minutes = 30
+cooldown = 120
+required_jobs = 0

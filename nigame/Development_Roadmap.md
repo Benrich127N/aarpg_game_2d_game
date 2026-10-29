@@ -44,11 +44,11 @@ Progress dashboard
 
 | Stage                            | Status        | Deliverable |     |
 | -------------------------------- | ------------- | ----------- | --- |
-| 00 Planning and Scope            | ⬜ Not started | 7 tasks     |     |
-| 01 Godot Foundations             | ⬜ Not started | 8 tasks     |     |
-| 02 Player and Camera             | ⬜ Not started | 7 tasks     |     |
-| 03 Core State and Time           | ⬜ Not started | 8 tasks     |     |
-| 04 HUD and Menus                 | ⬜ Not started | 6 tasks     |     |
+| 00 Planning and Scope            | ✅ Planning complete | 7 tasks     |     |
+| 01 Godot Foundations             | 🟨 Setup verified; practice pending | 8 tasks     |     |
+| 02 Player and Camera             | 🟨 Implemented; manual review pending | 7 tasks     |     |
+| 03 Core State and Time           | 🟨 Implemented; manual review pending | 8 tasks     |     |
+| 04 HUD and Menus                 | 🟨 Implemented; manual review pending | 6 tasks     |     |
 | 05 Interaction                   | ⬜ Not started | 6 tasks     |     |
 | 06 NPC and Dialogue              | ⬜ Not started | 7 tasks     |     |
 | 07 Jobs and Minigames            | ⬜ Not started | 7 tasks     |     |
@@ -70,93 +70,103 @@ Full task checklist
 
 Detailed instructions: [[02 - Step by Step Development Guide#Step 1 — Planning and Scope]]
 
-Define core fantasy and target player
+- [x] Define core fantasy and target player
 
-Choose top down 2D art direction and tile scale
+- [x] Choose top down 2D art direction and tile scale
 
-Write one page game design document
+- [x] Write one page game design document
 
-Define 12 week MVP and explicitly defer advanced features
+- [x] Define 12 week MVP and explicitly defer advanced features
 
-Define success criteria for first playable loop
+- [x] Define success criteria for first playable loop
 
-Choose input scheme and desktop target
+- [x] Choose input scheme and desktop target
 
-Create asset licensing and attribution log
+- [x] Create asset licensing and attribution log
+
+Deliverables: [Game design](docs/GDD.md), [12-week MVP plan](docs/MVP_Plan.md), [asset attribution log](docs/ASSET_LICENSES.md).
+
+Planning acceptance reviewed against the documented ten-minute loop. Godot headless startup verification passed during Step 2; visual debugger review remains manual. Planning files are included with the foundations milestone.
 
 01 · Godot Foundations
 
 Detailed instructions: [[02 - Step by Step Development Guide#Step 2 — Godot Foundations]]
 
-Install Godot 4.x and create project
+- [x] Install Godot 4.x and create project
 
-Configure 1280×720 viewport and stretch settings
+- [x] Configure 1280×720 viewport and stretch settings
 
-Learn scenes nodes signals and groups
+- [ ] Learn scenes nodes signals and groups
 
-Learn GDScript typed variables functions arrays dictionaries
+- [ ] Learn GDScript typed variables functions arrays dictionaries
 
-Learn CharacterBody2D Area2D and collisions
+- [ ] Learn CharacterBody2D Area2D and collisions
 
-Learn TileMapLayer and TileSet
+- [ ] Learn TileMapLayer and TileSet
 
-Learn custom Resource files and scene instantiation
+- [ ] Learn custom Resource files and scene instantiation
 
-Initialize Git and Godot .gitignore
+- [x] Initialize Git and Godot .gitignore
+
+Setup and exercises: [Godot foundations](docs/Godot_Foundations.md). Existing parent Git repository reused; no nested repository created.
+
+Validation: installed Godot 4.4.1; headless editor import, blank scene, and existing main scene completed without reported errors. Git confirms .godot/ is ignored. Manual visual/input checks and the five learning exercises remain pending.
 
 02 · Player and Camera
 
 Detailed instructions: [[02 - Step by Step Development Guide#Step 3 — Player and Camera]]
 
-Create Player.tscn and Player.gd
+- [x] Create Player.tscn and Player.gd
 
-Configure Input Map for WASD and interact
+- [x] Configure Input Map for WASD and interact
 
-Create placeholder sprite and collision shape
+- [x] Create placeholder sprite and collision shape
 
-Implement normalized four way movement
+- [x] Implement normalized four way movement
 
-Add AnimatedSprite2D and idle walk animations
+- [x] Add AnimatedSprite2D and idle walk animations
 
-Add Camera2D and limits
+- [x] Add Camera2D and limits
 
-Test wall collisions and diagonal movement
+- [x] Test wall collisions and diagonal movement
 
 03 · Core State and Time
 
 Detailed instructions: [[02 - Step by Step Development Guide#Step 4 — Core State and Time]]
 
-Create Global.gd AutoLoad and stat signals
+- [x] Create Global.gd AutoLoad and stat signals
 
-Store currency as integer naira or kobo
+- [x] Store currency as integer naira or kobo
 
-Implement safe cash credit and debit
+- [x] Implement safe cash credit and debit
 
-Implement energy hunger health reputation clamps
+- [x] Implement energy hunger health reputation clamps
 
-Create TimeManager.gd AutoLoad and time_changed signal
+- [x] Create TimeManager.gd AutoLoad and time_changed signal
 
-Implement game minutes hours days and pause
+- [x] Implement game minutes hours days and pause
 
-Implement scheduled hunger decay and day rollover
+- [x] Implement scheduled hunger decay and day rollover
 
-Write tests for midnight and time advancement
+- [x] Write tests for midnight and time advancement
 
 04 · HUD and Menus
 
 Detailed instructions: [[02 - Step by Step Development Guide#Step 5 — HUD and Menus]]
 
-Create HUD.tscn and HUD.gd
+- [x] Create HUD.tscn and HUD.gd
 
-Add cash energy hunger health and time widgets
+- [x] Add cash energy hunger health and time widgets
 
-Connect signals without per frame polling
+- [x] Connect signals without per frame polling
 
-Add interaction prompt and notification toast
+- [x] Add interaction prompt and notification toast
 
-Create pause menu and settings placeholders
+- [x] Create pause menu and settings placeholders
 
-Test HUD across different window sizes
+- [x] Test HUD layout across different window sizes (automated; visual review pending)
+
+Implementation and validation: [Steps 3–5 notes](docs/Steps_3_to_5.md). Automated checks passed; visual/editor review remains pending. Milestone remains uncommitted following the earlier declined Git staging request.
 
 05 · Interaction
 
