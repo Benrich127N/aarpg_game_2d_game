@@ -12,7 +12,7 @@ URL = "https://github.com/godotengine/godot-builds/releases/download/4.4.1-stabl
 
 class RemoteZip(io.RawIOBase):
     def __init__(self):
-        request = urllib.request.Request(URL, headers={"Range": "bytes=0-0", "User-Agent": "LagosLife-build"})
+        request = urllib.request.Request(URL, headers={"Range": "bytes=0-0", "User-Agent": "PH_NIGHT-build"})
         with urllib.request.urlopen(request, timeout=90) as response:
             if response.status != 206:
                 raise RuntimeError("The server does not support partial downloads")
@@ -31,7 +31,7 @@ class RemoteZip(io.RawIOBase):
         size = min(size, self.length - self.position)
         if size <= 0: return b""
         start = self.position
-        request = urllib.request.Request(self.url, headers={"Range": f"bytes={start}-{start + size - 1}", "User-Agent": "LagosLife-build"})
+        request = urllib.request.Request(self.url, headers={"Range": f"bytes={start}-{start + size - 1}", "User-Agent": "PH_NIGHT-build"})
         with urllib.request.urlopen(request, timeout=120) as response:
             if response.status != 206 or not response.headers.get("Content-Range", "").startswith(f"bytes {start}-"):
                 raise RuntimeError("The server returned an unexpected byte range")

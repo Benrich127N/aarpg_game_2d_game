@@ -18,3 +18,6 @@ Build: 0.1.0 Windows prototype
 Suggested session: wake, talk to Tunde, deliver a parcel, earn pay once, buy/eat food, sleep, save/reopen, finish a stock shift, customize clothing, transfer money, place/store a chair, try an event and travel when unlocked. Check arrows/controller menu focus, readable text, audio controls, fullscreen and reduced motion.
 
 Feedback received: none yet. Do not mark external playtesting complete until a tester has actually run the package.
+
+
+Known internal QA item: QA-001 — headless standalone write-mode smoke test passes but can report an ObjectDB cleanup warning at exit. Rendered packaged write/read sessions were clean. Review audio/engine shutdown in longer sessions; no gameplay blocker is established.

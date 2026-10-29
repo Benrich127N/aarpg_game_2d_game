@@ -1,6 +1,6 @@
-LAGOS LIFE SIMULATOR — 0.1.0 PROTOTYPE
+PH NIGHT — 0.1.0 PROTOTYPE
 
-Extract every file to one folder, then run LagosLife.exe. Keep LagosLife.pck
+Extract every file to one folder, then run PH_NIGHT.exe. Keep PH_NIGHT.pck
 beside the executable. Godot and the Godot editor are not required to play.
 Windows x86_64; an OpenGL 3.3 compatible graphics driver is required.
 

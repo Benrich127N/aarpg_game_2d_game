@@ -22,7 +22,7 @@ Night tint and streetlights activate outside from 19:00 to 06:00. Rain has a vis
 
 ## Saves and compatibility
 
-The schema is now **version 3**. It extends the existing validated state with world events/NPC positions and character/phone/bank data. Version 1 and 2 saves migrate using deterministic defaults. Future versions, unknown assets/events, negative bank values and invalid outfits are rejected before mutation. The existing `NIGAME` user-data folder remains unchanged to preserve earlier saves.
+The schema is now **version 3**. It extends the existing validated state with world events/NPC positions and character/phone/bank data. Version 1 and 2 saves migrate using deterministic defaults. Future versions, unknown assets/events, negative bank values and invalid outfits are rejected before mutation. The project is named **PH NIGHT**. A custom user-data directory preserves the existing `Godot/app_userdata/NIGAME` Windows folder so earlier saves and settings remain available after the rename.
 
 The title screen provides Continue, a confirmed New game, Settings, Credits and Quit. Pause adds Save and return to title. The normal entry scene is `Scenes/ui/MainMenu.tscn`; `Scenes/main/Main.tscn` remains the gameplay scene used by integration tests.
 

@@ -1,4 +1,4 @@
-project: Lagos Life Simulator
+project: PH NIGHT
 type: roadmap
 engine: Godot 4.x
 status: in-progress
@@ -8,13 +8,13 @@ tags:
 
 ● gamedev
 
-● lagos-life
+● ph-night
 
 ● roadmap
 
 
 
-Lagos Life Simulator | Master Roadmap
+PH NIGHT | Master Roadmap
 
 > [!abstract] Project goal
 > Build a top down 2D Lagos life sim. First release target: one street, five NPCs, two jobs, two shops, one room, working needs, dialogue, and save/load.

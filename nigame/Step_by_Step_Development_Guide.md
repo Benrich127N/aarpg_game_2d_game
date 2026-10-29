@@ -1,4 +1,4 @@
-project: Lagos Life Simulator  
+project: PH NIGHT  
 type: implementation-guide  
 engine: Godot 4.x  
 status: in-progress  
@@ -12,7 +12,7 @@ tags:
 
   
 
-Lagos Life Simulator | Step by Step Development Guide
+PH NIGHT | Step by Step Development Guide
 
 Tracker: [[01 - Master Development Roadmap]]
 

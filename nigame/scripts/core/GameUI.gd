@@ -368,10 +368,10 @@ func event_panel() -> void:
 		close())
 
 func credits() -> void:
-	frame("Credits", "Lagos Life Simulator · Prototype\nA fictional neighbourhood life sim.\nOriginal procedural character layers, environment shapes, icon, sound design, syncopated music cue and dialogue were created for this project.\nBuilt with Godot Engine (MIT licence). The licence and third-party engine notices are included with the release.\nThe earlier unverified prototype sprite is excluded from release packages.")
+	frame("Credits", "PH NIGHT · Prototype\nA fictional neighbourhood life sim.\nOriginal procedural character layers, environment shapes, icon, sound design, syncopated music cue and dialogue were created for this project.\nBuilt with Godot Engine (MIT licence). The licence and third-party engine notices are included with the release.\nThe earlier unverified prototype sprite is excluded from release packages.")
 
 func title_screen() -> void:
-	frame("LAGOS LIFE SIMULATOR", "One street. A fresh start. Build your day, one choice at a time.")
+	frame("PH NIGHT", "One street. A fresh start. Build your day, one choice at a time.")
 	# A title screen has no gameplay behind it to close into.
 	for child in body.get_children():
 		if child is Button and child.text == "Close · Esc":

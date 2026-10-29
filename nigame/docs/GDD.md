@@ -1,4 +1,4 @@
-# Lagos Life Simulator — Game Design
+# PH NIGHT — Game Design
 
 Status: initial design baseline; implementation is tracked in [the roadmap](../Development_Roadmap.md).
 

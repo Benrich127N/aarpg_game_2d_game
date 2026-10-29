@@ -110,7 +110,7 @@ func _build_ui() -> void:
 	menu.add_theme_constant_override("separation", 16)
 	center.add_child(menu)
 	var title := Label.new()
-	title.text = "LAGOS LIFE · PAUSED"
+	title.text = "PH NIGHT · PAUSED"
 	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 	menu.add_child(title)
 	pause_notice = Label.new()
