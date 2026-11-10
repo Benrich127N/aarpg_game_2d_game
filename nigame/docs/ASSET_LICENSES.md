@@ -15,4 +15,10 @@ Record assets when added, including placeholders. Unknown means the source or pe
 
 ## Adding an asset
 
+HUD update: heart, food-bowl and lightning symbols in `UI/NeedIcon.gd` are original project-authored pixel patterns rendered with Godot rectangles. `UI/NeedMeter.gd` provides native framed progress bars and state labels. No external images, fonts or asset licences were added.
+
+Character art addition: `res://assets/art/characters/{player,tunde,amara,sade,bisi,femi}-v1.png` are six AI-generated sheets created with the built-in OpenAI image generation tool, without reference images or third-party input art. No third-party attribution identified; no exclusive copyright claim. See `assets/art/characters/README.md` for source records and `generation-prompts.txt` for exact prompts. These replace procedural player/NPC visuals in the current source game. Runtime nearest-neighbour frame extraction and player wardrobe palette layers are project-authored. Terrain remains procedural. The previously built Windows package has not been rebuilt for these art changes.
+
+Environment art addition (2026-11-10): `res://assets/art/lagos-props-v1.png` contains 12 AI-generated props made with OpenAI's built-in image generation tool for this project, without reference images or third-party input art. No third-party attribution identified; no exclusive copyright claim. Exact prompt, source generation record, atlas layout and integration notes are recorded in `assets/art/README.md` and `assets/art/generation-prompt.txt`. Used by `scripts/world/PixelArt.gd`, district decorations and interactables. Player/NPC and terrain prototypes are still in use.
+
 Add its exact project path, creator, original source URL or creation record, license name/version, required credit text, and any modifications. Keep a copy of the license or permission in `assets/licenses/` when available. Record font, music, sound, tileset, and sprite permissions separately. Prefer self-created placeholders while sources are unresolved. Build the release credits from verified rows.

@@ -4,6 +4,8 @@ var cash_label: Label
 var time_label: Label
 var location_label: Label
 var bars: Dictionary = {}
+const NEED_METER = preload("res://UI/NeedMeter.gd")
+var meters: Dictionary = {}
 var prompt: Label
 var toast: Label
 var toast_timer: Timer
@@ -40,12 +42,15 @@ func _build_ui() -> void:
 	margin.add_child(panel)
 	var panel_style := StyleBoxFlat.new()
 	panel_style.bg_color = Color("182a24")
+	panel_style.border_color = Color("7b7955")
+	panel_style.set_border_width_all(2)
+	panel_style.shadow_color = Color(0, 0, 0, 0.3)
+	panel_style.shadow_size = 3
+	panel_style.shadow_offset = Vector2(0, 3)
 	panel_style.content_margin_left = 14
 	panel_style.content_margin_right = 14
 	panel_style.content_margin_top = 10
 	panel_style.content_margin_bottom = 10
-	panel_style.corner_radius_bottom_left = 8
-	panel_style.corner_radius_bottom_right = 8
 	panel.add_theme_stylebox_override("panel", panel_style)
 	var column := VBoxContainer.new()
 	column.add_theme_constant_override("separation", 8)
@@ -62,22 +67,14 @@ func _build_ui() -> void:
 	time_label = Label.new()
 	top.add_child(time_label)
 	var needs := HBoxContainer.new()
-	needs.add_theme_constant_override("separation", 16)
+	needs.add_theme_constant_override("separation", 10)
 	column.add_child(needs)
-	for stat in ["Energy", "Hunger", "Health"]:
-		var item := VBoxContainer.new()
-		item.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	for stat in ["Health", "Hunger", "Energy"]:
+		var item := NEED_METER.new()
+		item.setup(stat)
 		needs.add_child(item)
-		var title := Label.new()
-		title.text = stat
-		item.add_child(title)
-		var bar := ProgressBar.new()
-		bar.custom_minimum_size.y = 20
-		var fill := StyleBoxFlat.new()
-		fill.bg_color = {"Energy": Color("7dad86"), "Hunger": Color("d6b45f"), "Health": Color("cb8179")}[stat]
-		bar.add_theme_stylebox_override("fill", fill)
-		item.add_child(bar)
-		bars[stat] = bar
+		meters[stat] = item
+		bars[stat] = item.bar
 	prompt = Label.new()
 	prompt.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
 	prompt.offset_top = -58
@@ -187,9 +184,10 @@ func notify(message: String) -> void:
 
 func _update_stats() -> void:
 	cash_label.text = "₦" + format_cash(Global.cash)
-	bars["Energy"].value = Global.energy
-	bars["Hunger"].value = Global.hunger
-	bars["Health"].value = Global.health
+	var reduced_motion: bool = Game.settings.values.reduced_motion
+	meters["Energy"].update_value(Global.energy, reduced_motion)
+	meters["Hunger"].update_value(Global.hunger, reduced_motion)
+	meters["Health"].update_value(Global.health, reduced_motion)
 
 func _update_time() -> void:
 	time_label.text = "Day %d  ·  %s" % [TimeManager.current_day, TimeManager.get_time_string()]
@@ -211,3 +209,5 @@ func _apply_accessibility() -> void:
 	var theme := Theme.new()
 	theme.default_font_size = int(16 * float(Game.settings.values.text_scale))
 	$MainUI.theme = theme
+	for meter in meters.values(): meter.apply_scale(float(Game.settings.values.text_scale))
+	_update_stats()

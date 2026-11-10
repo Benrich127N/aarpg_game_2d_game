@@ -1,6 +1,9 @@
 extends "res://scripts/world/Interactable.gd"
 var agent: NavigationAgent2D
 var destination: Vector2
+const CHARACTER_ART = preload("res://scripts/characters/CharacterArt.gd")
+var sprite: AnimatedSprite2D
+var facing: String = "down"
 
 func _ready() -> void:
 	kind = "npc"
@@ -10,6 +13,16 @@ func _ready() -> void:
 		position = Vector2(float(saved[0]), float(saved[1]))
 	else: position = Game.events.target(action_id)
 	super._ready()
+	sprite = AnimatedSprite2D.new()
+	sprite.name = "CharacterSprite"
+	sprite.sprite_frames = CHARACTER_ART.frames(action_id)
+	sprite.position = Vector2(0, -34)
+	sprite.scale = Vector2(2, 2)
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	add_child(sprite)
+	sprite.play("idle_down")
+	for child in get_children():
+		if child is Label: child.position.y = -94
 	agent = NavigationAgent2D.new()
 	agent.path_desired_distance = 4
 	agent.target_desired_distance = 4
@@ -22,10 +35,20 @@ func _schedule() -> void:
 	agent.target_position = destination
 
 func _physics_process(delta: float) -> void:
-	if Global.input_blocked: return
+	if Global.input_blocked:
+		sprite.play("idle_" + facing)
+		return
+	var previous := position
+	var walking := false
 	if not is_instance_valid(Game.player) or global_position.distance_to(Game.player.global_position) > 900:
 		position = destination
 	elif NavigationServer2D.map_get_iteration_id(agent.get_navigation_map()) > 0:
 		if not agent.is_navigation_finished():
 			position = position.move_toward(agent.get_next_path_position(), 55 * delta)
+			walking = position.distance_to(previous) > 0.01
+	if walking:
+		var movement := position - previous
+		facing = "side" if absf(movement.x) > absf(movement.y) else ("up" if movement.y < 0 else "down")
+		if facing == "side": sprite.flip_h = movement.x < 0
+	sprite.play(("walk_" if walking else "idle_") + facing)
 	Game.events.state.positions[action_id] = [position.x, position.y]

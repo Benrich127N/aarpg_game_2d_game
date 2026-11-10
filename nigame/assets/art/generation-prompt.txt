@@ -1,0 +1,18 @@
+Use case: stylized-concept
+Asset type: production pixel-art prop atlas for PH NIGHT, a top-down Godot life simulation set on a fictional Lagos mainland street.
+Primary request: create ONE transparent PNG sprite sheet, exactly 1024 x 768 pixels, arranged as FOUR columns and THREE rows of equal 256 x 256 cells. Each cell contains ONE isolated complete prop, centered horizontally with its ground baseline at cell y=224, fitting entirely within local x=16..240 and y=16..224. Keep transparent gutters. Absolutely no labels, grid lines, text, characters, or background.
+Style: crisp authentic hand-pixelled 16-bit game art, large deliberate square pixel clusters, hard edges, no antialiasing, no blur, no gradients. Slightly elevated front-facing top-down RPG view with visible tops, parallel edges, NOT isometric. Warm terracotta, ochre, cream, teal, deep brown outlines, restrained highlights. Consistent light from upper left and very small dark pixel ground shadows. Art should read clearly when each cell is displayed at 96x96 pixels.
+Exact cell contents in row-major order:
+Row 1 column 1: modest ochre Lagos room facade, corrugated rusty roof, open dark doorway with blue door, small louvred window.
+Row 1 column 2: Nigerian food stall with terracotta and cream striped canopy, cooking pot, bowls, simple wooden counter.
+Row 1 column 3: teal provisions kiosk, corrugated roof, shelves of brightly coloured tins and packaged goods, service hatch.
+Row 1 column 4: clothing stall with purple canopy and a rail of colourful shirts.
+Row 2 column 1: a stack of three delivery cardboard parcels, tape and small plain shipping labels without writing.
+Row 2 column 2: stockroom shelving unit with wooden crates, boxes and a small hand trolley.
+Row 2 column 3: yellow Lagos danfo minibus, black horizontal stripe, seen from elevated front three-quarter but parallel top-down game style, parked, no people.
+Row 2 column 4: simple wooden single bed with blue patterned blanket and cream pillow, headboard toward top.
+Row 3 column 1: small wooden office desk with ledger book, cream table lamp and stool.
+Row 3 column 2: warm wooden armchair with woven seat.
+Row 3 column 3: terracotta planter with lush tropical leaves.
+Row 3 column 4: compact red portable generator with dark metal frame.
+Constraints: all 12 distinct props visible exactly once, one prop per cell, no overlap across cells, genuinely transparent background, no checkerboard baked in, no branding, no watermark.

@@ -2,6 +2,7 @@ extends Node2D
 @export var district_id: String = "mainland"
 const INTERACTABLE = preload("res://scripts/world/Interactable.gd")
 const NPC_SCENE = preload("res://Scenes/npc/NPC.tscn")
+const PIXEL_ART = preload("res://scripts/world/PixelArt.gd")
 var ground: TileMapLayer
 var obstacles: TileMapLayer
 var tint: CanvasModulate
@@ -106,6 +107,9 @@ func _mainland() -> void:
 	object("Collect parcel", "parcel", "", Vector2(640, 688))
 	object("Stock shift", "job", "stock", Vector2(1440, 768))
 	object("Bus stop", "travel", "", Vector2(1632, 432), Color("e3bd45"))
+	decoration("plant", Vector2(208, 336), 72)
+	decoration("plant", Vector2(1072, 336), 72)
+	decoration("generator", Vector2(1120, 688), 80)
 	var positions: Array[Vector2] = [Vector2(480, 688), Vector2(640, 416), Vector2(960, 416), Vector2(1280, 416), Vector2(1440, 688)]
 	var colors: Array[Color] = [Color("e3b95d"), Color("c97057"), Color("83b6a0"), Color("a99ad0"), Color("6da5c0")]
 	for index in range(5):
@@ -128,11 +132,15 @@ func _room() -> void:
 	object("Housing desk", "housing", "", Vector2(608, 288))
 	object("Furniture", "furniture", "", Vector2(608, 448), Color("ab7857"))
 	for entry in Game.housing.furniture:
-		var chair := Polygon2D.new()
-		chair.position = Vector2(int(entry.x) * 32 + 16, int(entry.y) * 32 + 16)
-		chair.polygon = PackedVector2Array([Vector2(-10, -12), Vector2(10, -12), Vector2(10, 10), Vector2(-10, 10)])
-		chair.color = Color("70472d")
-		add_child(chair)
+		decoration("chair", Vector2(int(entry.x) * 32 + 16, int(entry.y) * 32 + 16), 48)
+	decoration("plant", Vector2(208, 448), 64)
+
+func decoration(prop: String, at: Vector2, width: float) -> void:
+	var anchor := Node2D.new()
+	anchor.position = at
+	anchor.add_child(PIXEL_ART.sprite(prop, width))
+	add_child(anchor)
+
 func _district() -> void:
 	block(Rect2i(8, 9, 12, 4))
 	block(Rect2i(24, 9, 12, 4))

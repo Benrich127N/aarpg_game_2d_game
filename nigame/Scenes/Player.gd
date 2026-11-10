@@ -5,6 +5,10 @@ const ART = preload("res://scripts/characters/LayeredCharacter.gd")
 var facing: String = "down"
 var layers: Array[AnimatedSprite2D] = []
 var step_time: float = 0.0
+var idle_time: float = 0.0
+const VISUAL_ORIGIN := Vector2(0, -22)
+const IDLE_DELAY := 0.35
+const BREATH_PERIOD := 2.8
 
 func _ready() -> void:
 	layers.append(sprite)
@@ -20,6 +24,7 @@ func _ready() -> void:
 
 func _settings_changed() -> void:
 	$Camera2D.position_smoothing_enabled = not bool(Game.settings.values.reduced_motion)
+	_update_idle(0.0, true)
 
 func update_outfit() -> void:
 	var outfit: Dictionary = Game.wardrobe.state
@@ -28,8 +33,25 @@ func update_outfit() -> void:
 	layers[2].sprite_frames = ART.frames("hair", [Color("242a29"), Color("4b3229"), Color("352f46")][int(outfit.hair)], int(outfit.hair))
 	layers[3].sprite_frames = ART.frames("shoes", [Color("292e32"), Color("eee1c2"), Color("8a4c3d")][int(outfit.shoes)])
 	for layer in layers:
-		layer.position = Vector2(0, 2)
+		layer.position = VISUAL_ORIGIN
+		layer.scale = Vector2(2, 2)
+		layer.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 		layer.play("idle_" + facing)
+	idle_time = 0.0
+
+func _update_idle(delta: float, moving: bool) -> void:
+	# A small stepped breath keeps pixel edges stable and anchors the soles at y=22.
+	# Every wardrobe layer receives exactly the same transform in all directions.
+	var breath := 0
+	if moving or Global.input_blocked or bool(Game.settings.values.reduced_motion):
+		idle_time = 0.0
+	else:
+		idle_time += delta
+		if idle_time > IDLE_DELAY:
+			breath = roundi(sin((idle_time - IDLE_DELAY) * TAU / BREATH_PERIOD))
+	for layer in layers:
+		layer.scale = Vector2(2.0, 2.0 + float(breath) / 22.0)
+		layer.position = VISUAL_ORIGIN - Vector2(0, breath)
 
 func _physics_process(delta: float) -> void:
 	var direction: Vector2 = Input.get_vector("move_left", "move_right", "move_up", "move_down")
@@ -46,6 +68,7 @@ func _physics_process(delta: float) -> void:
 			step_time = 0
 			Game.audio.sfx("step")
 	else: step_time = 0
+	_update_idle(delta, direction != Vector2.ZERO)
 	for layer in layers:
 		layer.flip_h = facing == "side" and direction.x < 0 if direction != Vector2.ZERO else layer.flip_h
 		layer.play(("walk_" if direction != Vector2.ZERO else "idle_") + facing)
