@@ -24,7 +24,7 @@ func _ready() -> void:
 	panel.set_anchors_and_offsets_preset(Control.PRESET_BOTTOM_WIDE)
 	panel.offset_left = 72
 	panel.offset_right = -72
-	panel.offset_top = -238
+	panel.offset_top = -218
 	panel.offset_bottom = -20
 	panel.grow_vertical = Control.GROW_DIRECTION_BEGIN
 	var frame := box(Color("182d25"), Color("ead7a2"))
