@@ -10,6 +10,35 @@ const SHEETS := {
 }
 static var images: Dictionary = {}
 static var animations: Dictionary = {}
+static var player_walk_cells: Array[Image] = []
+
+static func player_cells() -> Array[Image]:
+	if not player_walk_cells.is_empty(): return player_walk_cells
+	player_walk_cells = cells("player").duplicate()
+	for row in range(2):
+		var standing := player_walk_cells[row * 4]
+		var contact := align_head(player_walk_cells[row * 4 + 1], standing)
+		var opposite := contact.duplicate()
+		opposite.flip_x()
+		opposite = align_head(opposite, standing)
+		# Reuse one stable passing pose and alternate the leading arm/leg.
+		player_walk_cells[row * 4 + 1] = contact
+		player_walk_cells[row * 4 + 2] = standing
+		player_walk_cells[row * 4 + 3] = opposite
+	return player_walk_cells
+
+static func align_head(frame: Image, reference: Image) -> Image:
+	var head_region := Rect2i(0, 0, 32, 18)
+	var head := frame.get_region(head_region).get_used_rect()
+	var anchor := reference.get_region(head_region).get_used_rect()
+	var shift := Vector2i(roundi(anchor.get_center().x - head.get_center().x), anchor.position.y - head.position.y)
+	var used := frame.get_used_rect()
+	shift.x = clampi(shift.x, -used.position.x, 32 - used.end.x)
+	shift.y = clampi(shift.y, -used.position.y, 48 - used.end.y)
+	var result := Image.create(32, 48, false, Image.FORMAT_RGBA8)
+	result.fill(Color.TRANSPARENT)
+	result.blit_rect(frame, Rect2i(Vector2i.ZERO, frame.get_size()), shift)
+	return result
 
 static func cells(id: String) -> Array[Image]:
 	if images.has(id): return images[id]

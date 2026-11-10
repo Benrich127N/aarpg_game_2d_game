@@ -4,7 +4,8 @@ const ART = preload("res://scripts/characters/LayeredCharacter.gd")
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 var facing: String = "down"
 var layers: Array[AnimatedSprite2D] = []
-var step_time: float = 0.0
+var walk_distance: float = 0.0
+const STRIDE_DISTANCE := 144.0
 var idle_time: float = 0.0
 const VISUAL_ORIGIN := Vector2(0, -22)
 const IDLE_DELAY := 0.35
@@ -36,7 +37,9 @@ func update_outfit() -> void:
 		layer.position = VISUAL_ORIGIN
 		layer.scale = Vector2(2, 2)
 		layer.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-		layer.play("idle_" + facing)
+		layer.pause()
+		layer.animation = "idle_" + facing
+		layer.set_frame_and_progress(0, 0.0)
 	idle_time = 0.0
 
 func _update_idle(delta: float, moving: bool) -> void:
@@ -58,20 +61,26 @@ func _physics_process(delta: float) -> void:
 	if Global.input_blocked: direction = Vector2.ZERO
 	velocity = direction * speed
 	move_and_slide()
+	var distance := get_position_delta().length()
+	var walking := direction != Vector2.ZERO and distance > 0.01
 	if direction != Vector2.ZERO:
 		if absf(direction.x) > absf(direction.y):
 			facing = "side"
 		else:
 			facing = "up" if direction.y < 0 else "down"
-		step_time += delta
-		if step_time >= 0.32 and get_position_delta().length() > 0.1:
-			step_time = 0
-			Game.audio.sfx("step")
-	else: step_time = 0
-	_update_idle(delta, direction != Vector2.ZERO)
+	if walking:
+		var previous_step := floori(walk_distance / (STRIDE_DISTANCE * 0.5))
+		walk_distance += distance
+		if floori(walk_distance / (STRIDE_DISTANCE * 0.5)) > previous_step: Game.audio.sfx("step")
+	else: walk_distance = 0.0
+	_update_idle(delta, walking)
+	var phase := fposmod(walk_distance, STRIDE_DISTANCE) / STRIDE_DISTANCE * 4.0
+	var animation := ("walk_" if walking else "idle_") + facing
+	var frame := floori(phase) if walking else 0
+	var progress := phase - floorf(phase) if walking else 0.0
 	for layer in layers:
 		layer.flip_h = facing == "side" and direction.x < 0 if direction != Vector2.ZERO else layer.flip_h
-		layer.play(("walk_" if direction != Vector2.ZERO else "idle_") + facing)
-		if layer != sprite:
-			layer.frame = sprite.frame
-			layer.frame_progress = sprite.frame_progress
+		# One distance-based clock drives every layer; none advances independently.
+		layer.pause()
+		if layer.animation != animation: layer.animation = animation
+		layer.set_frame_and_progress(frame, progress)

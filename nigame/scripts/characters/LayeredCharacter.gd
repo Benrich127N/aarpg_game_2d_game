@@ -7,7 +7,7 @@ static func frames(part: String, color: Color, variant: int = 0) -> SpriteFrames
 	var key := "%s:%s:%d" % [part, color.to_html(), variant]
 	if cache.has(key): return cache[key]
 	var textures: Array[Texture2D] = []
-	for source in ART.cells("player"):
+	for source in ART.player_cells():
 		var layer := Image.create(32, 48, false, Image.FORMAT_RGBA8)
 		layer.fill(Color.TRANSPARENT)
 		for y in range(48):

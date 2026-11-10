@@ -8,6 +8,7 @@ $cases = @(
 @('foundation', 'res://tests/Steps3To5.tscn', ''),
 @('daily-loop', 'res://tests/Steps6To15.tscn', ''),
 @('final-systems', 'res://tests/Steps16To19.tscn', ''),
+@('dialogue-card', 'res://tests/DialogueCard.tscn', ''),
 @('restart-write', 'res://tests/PersistenceRestart.tscn', '-- write'),
 @('restart-read', 'res://tests/PersistenceRestart.tscn', ''))
 foreach ($case in $cases) {
