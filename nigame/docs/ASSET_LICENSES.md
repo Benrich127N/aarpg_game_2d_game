@@ -15,6 +15,8 @@ Record assets when added, including placeholders. Unknown means the source or pe
 
 ## Adding an asset
 
+Main-menu update: `scripts/ui/MenuBackdrop.gd` combines the recorded prop and character sheets with original code-drawn skyline, moon, road and string lights. `scripts/ui/TitleScreen.gd` supplies native Godot typography, framed buttons and keyboard focus indicators. No new third-party images, fonts or licences were introduced. The background is static and respects reduced-motion preferences. Continue checks both the main save and backup; the existing new-game confirmation and settings/credits flows are retained. `tests/TitleMenu.tscn` verifies these states, keyboard focus, submenu returns and maximum text sizing.
+
 HUD update: heart, food-bowl and lightning symbols in `UI/NeedIcon.gd` are original project-authored pixel patterns rendered with Godot rectangles. `UI/NeedMeter.gd` provides native framed progress bars and state labels. No external images, fonts or asset licences were added.
 
 Character art addition: `res://assets/art/characters/{player,tunde,amara,sade,bisi,femi}-v1.png` are six AI-generated sheets created with the built-in OpenAI image generation tool, without reference images or third-party input art. No third-party attribution identified; no exclusive copyright claim. See `assets/art/characters/README.md` for source records and `generation-prompts.txt` for exact prompts. These replace procedural player/NPC visuals in the current source game. Runtime nearest-neighbour frame extraction and player wardrobe palette layers are project-authored. Terrain remains procedural. The previously built Windows package has not been rebuilt for these art changes.

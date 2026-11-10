@@ -6,6 +6,7 @@ var location_label: Label
 var bars: Dictionary = {}
 const NEED_METER = preload("res://UI/NeedMeter.gd")
 var meters: Dictionary = {}
+var dialogue_active := false
 var prompt: Label
 var toast: Label
 var toast_timer: Timer
@@ -175,11 +176,17 @@ func set_paused(value: bool) -> void:
 
 func set_interaction_prompt(text: String) -> void:
 	prompt.text = text
+	prompt.visible = not dialogue_active
+
+func set_dialogue_active(active: bool) -> void:
+	dialogue_active = active
+	prompt.visible = not active
+	toast.visible = not active and toast_timer.time_left > 0
 
 func notify(message: String) -> void:
 	if get_tree().paused and is_instance_valid(pause_notice): pause_notice.text = message
 	toast.text = message
-	toast.show()
+	toast.visible = not dialogue_active
 	toast_timer.start()
 
 func _update_stats() -> void:

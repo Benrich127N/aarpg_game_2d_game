@@ -9,6 +9,8 @@ var last_notice: String = ""
 var title_mode: bool = false
 var phone_view: Node
 var settings_view: Node
+var title_page: Control
+var dialogue_card: Control
 
 func _ready() -> void:
 	layer = 20
@@ -34,6 +36,8 @@ func _ready() -> void:
 	content.add_theme_constant_override("separation", 14)
 	scroll.add_child(content)
 	overlay.hide()
+	dialogue_card = preload("res://scripts/ui/DialogueCard.gd").new()
+	add_child(dialogue_card)
 	Game.message_sent.connect(_message)
 	_apply_settings()
 
@@ -44,6 +48,8 @@ func _input(event: InputEvent) -> void:
 	if Game.modal_open:
 		if event.is_action_pressed("pause"):
 			close()
+			get_viewport().set_input_as_handled()
+		elif is_instance_valid(dialogue_card) and dialogue_card.visible and dialogue_card.handle_input(event):
 			get_viewport().set_input_as_handled()
 		return
 	if get_tree().paused or title_mode: return
@@ -57,6 +63,8 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 
 func frame(title: String, description: String = "") -> void:
+	_hide_dialogue()
+	if is_instance_valid(title_page): title_page.hide()
 	if not Game.modal_open: last_notice = ""
 	Game.open_modal()
 	overlay.show()
@@ -107,12 +115,21 @@ func close() -> void:
 	if title_mode:
 		title_screen()
 		return
+	if is_instance_valid(title_page): title_page.hide()
 	overlay.hide()
+	_hide_dialogue()
 	Game.close_modal()
+
+func _hide_dialogue() -> void:
+	if is_instance_valid(dialogue_card): dialogue_card.hide()
+	var hud: Node = get_tree().get_first_node_in_group("hud")
+	if hud != null: hud.set_dialogue_active(false)
 
 func _message(text: String) -> void:
 	last_notice = text
-	if Game.modal_open and is_instance_valid(status_label):
+	if is_instance_valid(dialogue_card) and dialogue_card.visible:
+		dialogue_card.show_notice(text)
+	elif Game.modal_open and is_instance_valid(status_label):
 		status_label.text = text
 		status_label.show()
 	var hud: Node = get_tree().get_first_node_in_group("hud")
@@ -152,33 +169,48 @@ func perform(kind: String, id: String) -> void:
 		"wardrobe": wardrobe()
 		"clothes": clothing_shop()
 
+func _npc_card(id: String, text: String, options: Array) -> void:
+	if is_instance_valid(title_page): title_page.hide()
+	Game.open_modal()
+	overlay.hide()
+	dialogue_card.open(self, id, text, options)
+	var hud: Node = get_tree().get_first_node_in_group("hud")
+	if hud != null: hud.set_dialogue_active(true)
+
+func _npc_reply(id: String, text: String) -> void:
+	_npc_card(id, text, [
+		{"text": "Back to conversation", "action": func() -> void: dialogue(id)},
+		{"text": "Goodbye", "action": close},
+	])
+
 func dialogue(id: String) -> void:
 	if not Game.dialogue.data.has(id): return
 	var data: Dictionary = Game.dialogue.data[id]
-	frame(data.name + " · " + data.role, data.greeting)
-	button("Greet warmly", func() -> void:
-		Game.dialogue.choose(id, "greet")
-		frame(data.name, "Good to see you again." if int(Game.relationships.greeted_day.get(id, 0)) == TimeManager.current_day else "Hello!")
-		line("Friendship: %d · Trust: %d" % [int(Game.relationships.values.get(id, {}).get("friendship", 0)), int(Game.relationships.values.get(id, {}).get("trust", 0))]))
-	button("Ask for advice", func() -> void:
-		Game.dialogue.choose(id, "help")
-		frame(data.name, data.help))
-	if id == "tunde": button("Ask about delivery work", func() -> void: job("delivery"))
-	if id == "femi": button("Ask about stock work", func() -> void: job("stock"))
-	if id == "amara": button("Browse food", func() -> void: shop("food"))
-	if id == "sade": button("Browse provisions", func() -> void: shop("kiosk"))
+	var options: Array = [
+		{"text": "Greet warmly", "action": func() -> void:
+			Game.dialogue.choose(id, "greet")
+			_npc_reply(id, "Good to see you again! Friendship: %d · Trust: %d" % [int(Game.relationships.values.get(id, {}).get("friendship", 0)), int(Game.relationships.values.get(id, {}).get("trust", 0))])},
+		{"text": "Ask for advice", "action": func() -> void:
+			Game.dialogue.choose(id, "help")
+			_npc_reply(id, data.help)},
+	]
+	if id == "tunde": options.append({"text": "Ask about delivery work", "action": func() -> void: job("delivery")})
+	if id == "femi": options.append({"text": "Ask about stock work", "action": func() -> void: job("stock")})
+	if id == "amara": options.append({"text": "Browse food", "action": func() -> void: shop("food")})
+	if id == "sade": options.append({"text": "Browse provisions", "action": func() -> void: shop("kiosk")})
 	if id == "bisi":
 		if Game.jobs.active.get("id", "") == "delivery":
-			button("Hand over parcel", func() -> void:
+			options.append({"text": "Hand over parcel", "action": func() -> void:
 				if Game.jobs.deliver_to("bisi"):
 					close()
 					Game.save.autosave()
-				else: Game.message("Collect the parcel beside Tunde first."))
-		button("Express interest (optional)", func() -> void:
+				else: _npc_reply(id, "Collect the parcel beside Tunde first.")})
+		options.append({"text": "Express interest (optional)", "action": func() -> void:
 			if Game.dialogue.choose(id, "interest"):
-				frame("Bisi", "I'd like to spend more time together too.")
+				_npc_reply(id, "I'd like to spend more time together too.")
 			else:
-				frame("Bisi", "Let's get to know each other first. Friendship 20 is required."))
+				_npc_reply(id, "Let's get to know each other first. Friendship 20 is required.")})
+	_npc_card(id, data.greeting, options)
 
 func job(id: String) -> void:
 	if not Game.jobs.catalog.has(id): return
@@ -314,6 +346,8 @@ func _apply_settings() -> void:
 	var theme := Theme.new()
 	theme.default_font_size = int(18 * float(Game.settings.values.text_scale))
 	overlay.theme = theme
+	if is_instance_valid(title_page): title_page.apply_scale(float(Game.settings.values.text_scale))
+	if is_instance_valid(dialogue_card): dialogue_card.apply_scale(float(Game.settings.values.text_scale))
 
 func settings_menu() -> void:
 	settings_view.show_panel()
@@ -371,20 +405,16 @@ func credits() -> void:
 	frame("Credits", "PH NIGHT · Prototype\nA fictional neighbourhood life sim.\nOriginal procedural character layers, environment shapes, icon, sound design, syncopated music cue and dialogue were created for this project.\nBuilt with Godot Engine (MIT licence). The licence and third-party engine notices are included with the release.\nThe earlier unverified prototype sprite is excluded from release packages.")
 
 func title_screen() -> void:
-	frame("PH NIGHT", "One street. A fresh start. Build your day, one choice at a time.")
-	# A title screen has no gameplay behind it to close into.
-	for child in body.get_children():
-		if child is Button and child.text == "Close · Esc":
-			body.remove_child(child)
-			child.queue_free()
-	first_button = null
-	button("Continue", func() -> void: start_game(false), Game.save.read_state(Game.save.path) == null and Game.save.read_state(Game.save.path + ".bak") == null)
-	button("New game", func() -> void:
-		frame("Start fresh?", "Your previous save stays on disk until the next manual save or autosave.")
-		button("Start new game", func() -> void: start_game(true)))
-	button("Settings", settings_menu)
-	button("Credits", credits)
-	button("Quit", func() -> void: get_tree().quit())
+	_hide_dialogue()
+	Game.open_modal()
+	overlay.hide()
+	if is_instance_valid(title_page):
+		remove_child(title_page)
+		title_page.queue_free()
+	title_page = preload("res://scripts/ui/TitleScreen.gd").new()
+	add_child(title_page)
+	var has_save: bool = Game.save.read_state(Game.save.path) != null or Game.save.read_state(Game.save.path + ".bak") != null
+	title_page.setup(self, has_save)
 
 func start_game(fresh: bool) -> void:
 	title_mode = false
