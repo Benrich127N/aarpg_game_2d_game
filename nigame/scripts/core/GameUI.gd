@@ -11,6 +11,13 @@ var phone_view: Node
 var settings_view: Node
 var title_page: Control
 var dialogue_card: Control
+const PIXEL_THEME = preload("res://scripts/ui/PixelMenuTheme.gd")
+var page_backdrop: Control
+var page_art: Control
+var page_margin: MarginContainer
+var page_panel: PanelContainer
+var page_scroll: ScrollContainer
+var back_button: Button
 
 func _ready() -> void:
 	layer = 20
@@ -25,12 +32,32 @@ func _ready() -> void:
 	overlay.color = Color(0.025, 0.045, 0.035, 0.94)
 	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	add_child(overlay)
+	page_backdrop = preload("res://scripts/ui/MenuBackdrop.gd").new()
+	page_backdrop.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	overlay.add_child(page_backdrop)
+	page_backdrop.hide()
+	page_art = preload("res://scripts/ui/MenuPageArt.gd").new()
+	page_art.anchor_right = 0.31
+	page_art.anchor_bottom = 1.0
+	page_art.offset_left = 44
+	page_art.offset_right = -12
+	page_art.offset_top = 54
+	page_art.offset_bottom = -48
+	overlay.add_child(page_art)
+	page_art.hide()
 	var margin := MarginContainer.new()
+	page_margin = margin
 	margin.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	for edge in ["left", "right", "top", "bottom"]: margin.add_theme_constant_override("margin_" + edge, 60)
 	overlay.add_child(margin)
+	page_panel = PanelContainer.new()
+	page_panel.add_theme_stylebox_override("panel", PIXEL_THEME.box(Color("182d25"), Color("a99a6a"), 22))
+	margin.add_child(page_panel)
 	var scroll := ScrollContainer.new()
-	margin.add_child(scroll)
+	page_scroll = scroll
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.follow_focus = true
+	page_panel.add_child(scroll)
 	content = VBoxContainer.new()
 	content.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	content.add_theme_constant_override("separation", 14)
@@ -67,6 +94,18 @@ func frame(title: String, description: String = "") -> void:
 	if is_instance_valid(title_page): title_page.hide()
 	if not Game.modal_open: last_notice = ""
 	Game.open_modal()
+	var illustrated := title_mode or title == "Settings"
+	page_backdrop.visible = illustrated
+	page_art.visible = illustrated
+	if illustrated: page_art.present(title)
+	var confirmation := title_mode and title.begins_with("Start")
+	page_panel.size_flags_vertical = Control.SIZE_SHRINK_CENTER if confirmation else Control.SIZE_EXPAND_FILL
+	page_panel.custom_minimum_size.y = roundi(300 * float(Game.settings.values.text_scale)) if confirmation else 0
+	page_margin.add_theme_constant_override("margin_left", 440 if illustrated else 60)
+	page_margin.add_theme_constant_override("margin_right", 36 if illustrated else 60)
+	page_margin.add_theme_constant_override("margin_top", 36 if illustrated else 60)
+	page_margin.add_theme_constant_override("margin_bottom", 36 if illustrated else 60)
+	page_scroll.scroll_vertical = 0
 	overlay.show()
 	for child in content.get_children():
 		content.remove_child(child)
@@ -74,6 +113,8 @@ func frame(title: String, description: String = "") -> void:
 	first_button = null
 	heading = Label.new()
 	heading.text = title
+	heading.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	heading.add_theme_color_override("font_color", Color("f5dfa6"))
 	heading.add_theme_font_size_override("font_size", int(28 * float(Game.settings.values.text_scale)))
 	content.add_child(heading)
 	status_label = Label.new()
@@ -86,7 +127,8 @@ func frame(title: String, description: String = "") -> void:
 	body.add_theme_constant_override("separation", 10)
 	content.add_child(body)
 	if not description.is_empty(): line(description)
-	button("Close · Esc", close)
+	back_button = button("← Back · Esc" if title_mode else "Close · Esc", close)
+	first_button = null # The next enabled action is the page's primary action.
 
 func line(text: String) -> void:
 	var label := Label.new()
@@ -98,18 +140,33 @@ func button(text: String, action: Callable, disabled: bool = false) -> Button:
 	var control := Button.new()
 	control.text = text
 	control.custom_minimum_size.y = 42
+	control.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	control.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	control.disabled = disabled
+	if title_mode and text == "Start new game":
+		control.add_theme_stylebox_override("normal", PIXEL_THEME.box(Color("d9b96f"), Color("efdaa0")))
+		control.add_theme_stylebox_override("hover", PIXEL_THEME.box(Color("ecd092"), Color("fff0cc")))
+		control.add_theme_stylebox_override("pressed", PIXEL_THEME.box(Color("b99a54"), Color("fff0cc")))
+		for state in ["font_color", "font_hover_color", "font_focus_color", "font_pressed_color"]:
+			control.add_theme_color_override(state, Color("17271f"))
 	control.pressed.connect(func() -> void: Game.audio.sfx("click"))
 	control.pressed.connect(action)
 	body.add_child(control)
+	PIXEL_THEME.decorate(control)
 	if first_button == null and not disabled:
 		first_button = control
 		call_deferred("_focus_first")
 	return control
 
 func _focus_first() -> void:
+	# Containers can change height after adding previews or the landmark diagram.
+	await get_tree().process_frame
+	await get_tree().process_frame
+	if not is_instance_valid(first_button): first_button = back_button
 	if is_instance_valid(first_button) and first_button.is_inside_tree() and overlay.visible:
 		first_button.grab_focus()
+		page_scroll.ensure_control_visible(first_button)
+		if first_button == back_button: page_scroll.scroll_vertical = 0
 
 func close() -> void:
 	if title_mode:
@@ -119,6 +176,9 @@ func close() -> void:
 	overlay.hide()
 	_hide_dialogue()
 	Game.close_modal()
+	if get_tree().paused:
+		var hud: Node = get_tree().get_first_node_in_group("hud")
+		if hud != null and hud.pause_overlay.visible: hud.pause_menu.refresh()
 
 func _hide_dialogue() -> void:
 	if is_instance_valid(dialogue_card): dialogue_card.hide()
@@ -145,6 +205,8 @@ func result(success: bool, good: String = "Done.", failure: String = "That actio
 func perform(kind: String, id: String) -> void:
 	match kind:
 		"npc": dialogue(id)
+		"venue_person": venue_person(id)
+		"place": place(id)
 		"shop": shop(id)
 		"job": job(id)
 		"parcel":
@@ -168,6 +230,62 @@ func perform(kind: String, id: String) -> void:
 		"phone": phone_view.show_tab(Game.wardrobe.state.phone_tab)
 		"wardrobe": wardrobe()
 		"clothes": clothing_shop()
+
+func venue_person(id: String) -> void:
+	var cast: Dictionary = preload("res://scripts/characters/VenueCast.gd").PEOPLE
+	if not cast.has(id): return
+	var options: Array = []
+	var text: String = cast[id].greeting
+	match id:
+		"nneka":
+			options.append({"text": "Ask about bar work", "action": func() -> void: job("club")})
+			options.append({"text": "Ask about the neighborhood", "action": func() -> void: _venue_reply(id, "Bisi is planning a community garden. Sade's shop has supplies, and Amara's tables are a good place to stop for food.")})
+		"kemi":
+			options.append({"text": "Ask about dancing", "action": func() -> void: place("dance")})
+			options.append({"text": "Ask where to eat", "action": func() -> void: _venue_reply(id, "Try Amara's stall on the north side of the street. Her outdoor tables are south of the stall, between the courtyard and club.")})
+		"dele":
+			options.append({"text": "Head to the dance floor", "action": func() -> void: place("dance")})
+	options.append({"text": "Goodbye", "action": close})
+	_venue_card(id, text, options)
+
+func _venue_card(id: String, text: String, options: Array) -> void:
+	Game.open_modal()
+	overlay.hide()
+	dialogue_card.open(self, id, text, options, preload("res://scripts/characters/VenueCast.gd").PEOPLE[id])
+	var hud: Node = get_tree().get_first_node_in_group("hud")
+	if hud != null: hud.set_dialogue_active(true)
+
+func _venue_reply(id: String, text: String) -> void:
+	_venue_card(id, text, [{"text": "Back to conversation", "action": func() -> void: venue_person(id)}, {"text": "Goodbye", "action": close}])
+
+func place(id: String) -> void:
+	match id:
+		"garden":
+			frame("Bisi's garden plan", "The noticeboard shows raised vegetable beds, shaded benches and a clear path through the courtyard. Bisi wants this to be a place where neighbors can spend time together.")
+			button("Talk to Bisi", func() -> void: dialogue("bisi"))
+		"bench":
+			frame("Courtyard bench", "Take a quiet break beside the garden, or eat something from your bag.")
+			button("Sit for 15 minutes · +5 energy", func() -> void: _venue_break(15, 5))
+			button("Open food bag", bag)
+		"cafe":
+			frame("Amara's outdoor tables", "A shady spot for a meal between jobs. Buy food from Amara, then eat from your bag.")
+			button("Browse Amara's food", func() -> void: shop("food"))
+			button("Eat from your bag", bag)
+			button("Sit for 15 minutes · +5 energy", func() -> void: _venue_break(15, 5))
+		"dance":
+			frame("PH Night · dance floor", "Take a break from work and enjoy the music. Dancing takes 10 minutes and 5 energy.")
+			button("Dance for 10 minutes", func() -> void:
+				if Global.energy < 5:
+					Game.message("Rest or eat before dancing. You need 5 energy.")
+					return
+				_venue_break(10, -5))
+
+func _venue_break(minutes: int, energy: int) -> void:
+	Global.change_energy(energy)
+	TimeManager.advance_minutes(minutes)
+	close()
+	Game.message("You took a quiet break." if energy > 0 else "You spent some time dancing to the music.")
+	Game.save.autosave()
 
 func _npc_card(id: String, text: String, options: Array) -> void:
 	if is_instance_valid(title_page): title_page.hide()
@@ -217,7 +335,17 @@ func job(id: String) -> void:
 	var data: Resource = Game.jobs.catalog[id]
 	frame(data.title, "Pay ₦%d · Energy %d · Duration %d minutes" % [data.pay, data.energy, data.minutes])
 	if Game.jobs.active.get("id", "") == id:
-		if id == "stock":
+		if id == "club":
+			line("Serve each guest's requested drink. A wrong drink ends the shift without pay.")
+			line("Guest %d / 3 requests: %s" % [Game.jobs.stock_index + 1, str(Game.jobs.stock_order[Game.jobs.stock_index]).capitalize()])
+			for drink in ["water", "juice", "soda"]:
+				button("Serve " + drink.capitalize(), func() -> void:
+					Game.jobs.serve_club(drink)
+					if Game.jobs.active.is_empty():
+						close()
+						Game.save.autosave()
+					else: job(id))
+		elif id == "stock":
 			var minigame: VBoxContainer = preload("res://Scenes/minigames/StockMinigame.tscn").instantiate()
 			minigame.selected.connect(func(item: String) -> void:
 				Game.jobs.match_stock(item)
@@ -226,13 +354,19 @@ func job(id: String) -> void:
 					Game.save.autosave()
 				else: job(id))
 			body.add_child(minigame)
+			for child in minigame.get_children():
+				if child is Button and not child.disabled:
+					first_button = child
+					call_deferred("_focus_first")
+					break
 		else:
 			var minigame: VBoxContainer = preload("res://Scenes/minigames/DeliveryMinigame.tscn").instantiate()
 			minigame.cancelled.connect(func() -> void:
 				Game.jobs.cancel()
 				close())
 			body.add_child(minigame)
-		if id == "stock": button("Cancel shift · no pay", func() -> void:
+			first_button = back_button # Delivery continues in the world, not by cancelling.
+		if id in ["stock", "club"]: button("Cancel shift · no pay", func() -> void:
 			Game.jobs.cancel()
 			close())
 	else:
@@ -315,10 +449,12 @@ func journal() -> void:
 
 func contacts() -> void:
 	frame("Phone · contacts", "Relationships grow once per greeting per game day.")
+	var directions := {"tunde": "Find Tunde by the parcel stand south of the food stall.", "amara": "Find Amara at the food stall on the north side of the mainland.", "sade": "Find Sade inside her provisions shop or near its street frontage.", "bisi": "Find Bisi in the community courtyard or along the north-side street.", "femi": "Find Femi inside the stockroom or at the stock stand east of the parcel stand."}
 	for id in Game.relationships.NPC_IDS:
 		if not Game.dialogue.flags.has(id + ":greet") and not Game.dialogue.flags.has(id + ":help"): continue
 		var entry: Dictionary = Game.relationships.values.get(id, {})
 		line("%s · Friendship %d · Trust %d · Interest %d" % [Game.dialogue.data[id].name, entry.get("friendship", 0), entry.get("trust", 0), entry.get("romance", 0)])
+		line(directions[id])
 
 func career() -> void:
 	frame("Career and finances", "%s · Cash ₦%d · Net worth ₦%d · Reputation %d\nCompleted jobs: %d" % [Game.progression.title(), Global.cash, Game.progression.net_worth(), Global.reputation, Game.jobs.completed])
@@ -343,16 +479,16 @@ func new_game_prompt() -> void:
 
 func _apply_settings() -> void:
 	if not is_instance_valid(overlay): return
-	var theme := Theme.new()
-	theme.default_font_size = int(18 * float(Game.settings.values.text_scale))
+	var theme := PIXEL_THEME.make(float(Game.settings.values.text_scale))
 	overlay.theme = theme
+	if is_instance_valid(page_art): page_art.apply_scale(float(Game.settings.values.text_scale))
 	if is_instance_valid(title_page): title_page.apply_scale(float(Game.settings.values.text_scale))
 	if is_instance_valid(dialogue_card): dialogue_card.apply_scale(float(Game.settings.values.text_scale))
 
 func settings_menu() -> void:
-	settings_view.show_panel()
+	settings_view.show_panel("audio")
 
-func wardrobe() -> void:
+func wardrobe(focus_part: String = "") -> void:
 	frame("Wardrobe", "Your owned shirts and free character options. Buy more colours at the mainland clothing stall.")
 	if is_instance_valid(Game.player):
 		var preview := Control.new()
@@ -373,10 +509,16 @@ func wardrobe() -> void:
 		button("Wear " + str(Game.wardrobe.CLOTHES[id].title) + (" · equipped" if Game.wardrobe.state.shirt == id else ""), func() -> void:
 			Game.wardrobe.equip(id)
 			wardrobe())
+	var labels := {"skin": "Skin tone", "hair": "Hair color", "shoes": "Shoe color"}
+	var choices := {"skin": ["Warm tan", "Medium brown", "Deep brown"], "hair": ["Natural black", "Warm brown", "Dark plum"], "shoes": ["Charcoal", "Cream", "Brown"]}
 	for part in ["skin", "hair", "shoes"]:
-		button("%s style %d · change" % [part.capitalize(), int(Game.wardrobe.state[part]) + 1], func() -> void:
+		var control := button("%s · %s · change" % [labels[part], choices[part][int(Game.wardrobe.state[part])]], func() -> void:
 			Game.wardrobe.customize(part, (int(Game.wardrobe.state[part]) + 1) % 3)
-			wardrobe())
+			wardrobe(part))
+		control.name = "Wardrobe_" + part
+		if part == focus_part:
+			first_button = control
+			call_deferred("_focus_first")
 
 func clothing_shop() -> void:
 	frame("Clothing stall", "Cash ₦%d · Owned outfits remain available in your wardrobe (O)." % Global.cash)
@@ -402,7 +544,14 @@ func event_panel() -> void:
 		close())
 
 func credits() -> void:
-	frame("Credits", "PH NIGHT · Prototype\nA fictional neighbourhood life sim.\nOriginal procedural character layers, environment shapes, icon, sound design, syncopated music cue and dialogue were created for this project.\nBuilt with Godot Engine (MIT licence). The licence and third-party engine notices are included with the release.\nThe earlier unverified prototype sprite is excluded from release packages.")
+	frame("Credits", "PH NIGHT · A fictional Lagos neighbourhood life sim.")
+	line("ONE STREET. A FRESH START.")
+	line("Meet your neighbours, earn a living, and make a place for yourself on the mainland.")
+	line("ART & WORLD")
+	line("AI-generated pixel art brings the characters, street props and startup illustration to life. Animation, UI, dialogue and synthesised audio were created for this project.")
+	line("BUILT WITH GODOT")
+	line("Godot Engine is available under the MIT licence. Engine and third-party dependency notices are included with Windows releases.")
+	line("Thank you for playing.")
 
 func title_screen() -> void:
 	_hide_dialogue()

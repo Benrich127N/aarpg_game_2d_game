@@ -1,0 +1,23 @@
+GIMP Palette
+Name: PH NIGHT - Menus and HUD
+Columns: 4
+# Selected exact colors from PixelMenuTheme.gd, GameUI.gd and UI/hud.gd.
+ 16  38  29	Track
+ 20  41  31	Pressed
+ 24  42  36	HUD panel
+ 24  45  37	Modal panel
+ 28  48  38	Disabled
+ 38  63  49	Button base
+ 59  86  60	Button hover
+ 53  76  56	Disabled edge
+ 70  93  67	Track edge
+ 99 118  86	Button edge
+123 121  85	HUD edge
+130 146 125	Disabled text
+169 154 106	Panel edge
+188 160  93	Gold base
+228 199 140	Hover gold
+244 219 154	Selected marker
+245 223 166	Heading
+239 230 205	Body text
+255 240 204	Bright text

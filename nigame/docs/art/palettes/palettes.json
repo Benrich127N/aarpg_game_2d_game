@@ -1,0 +1,518 @@
+{
+  "street": {
+    "title": "Street and buildings",
+    "source": "Selected exact colors from scripts/world/District.gd and Interactable.gd.",
+    "colors": [
+      {
+        "hex": "#60795A",
+        "name": "Grass"
+      },
+      {
+        "hex": "#A28D6B",
+        "name": "Earth"
+      },
+      {
+        "hex": "#4D6261",
+        "name": "Road"
+      },
+      {
+        "hex": "#3B443E",
+        "name": "Boundary"
+      },
+      {
+        "hex": "#24382F",
+        "name": "Surround"
+      },
+      {
+        "hex": "#6D8285",
+        "name": "Business"
+      },
+      {
+        "hex": "#769579",
+        "name": "Lekki"
+      },
+      {
+        "hex": "#849F99",
+        "name": "Island"
+      },
+      {
+        "hex": "#CE7751",
+        "name": "Food stall"
+      },
+      {
+        "hex": "#7BB3A7",
+        "name": "Kiosk"
+      },
+      {
+        "hex": "#A99AD0",
+        "name": "Clothes"
+      },
+      {
+        "hex": "#E3BD45",
+        "name": "Bus"
+      },
+      {
+        "hex": "#E8BA63",
+        "name": "Interaction"
+      },
+      {
+        "hex": "#F1E2BD",
+        "name": "Light trim"
+      },
+      {
+        "hex": "#FFF0CC",
+        "name": "Sign text"
+      },
+      {
+        "hex": "#B26BCE",
+        "name": "Club entrance"
+      }
+    ]
+  },
+  "room": {
+    "title": "Room interior",
+    "source": "Selected exact colors from scripts/world/RoomInterior.gd.",
+    "colors": [
+      {
+        "hex": "#14231E",
+        "name": "Surround"
+      },
+      {
+        "hex": "#0C1814",
+        "name": "Deep shadow"
+      },
+      {
+        "hex": "#5C412C",
+        "name": "Wood shadow"
+      },
+      {
+        "hex": "#91663F",
+        "name": "Board seam"
+      },
+      {
+        "hex": "#AC8052",
+        "name": "Wood base"
+      },
+      {
+        "hex": "#B68B5B",
+        "name": "Wood warm"
+      },
+      {
+        "hex": "#B18A59",
+        "name": "Wood muted"
+      },
+      {
+        "hex": "#BB9160",
+        "name": "Wood light"
+      },
+      {
+        "hex": "#765A3C",
+        "name": "Skirting"
+      },
+      {
+        "hex": "#AD8D58",
+        "name": "Trim"
+      },
+      {
+        "hex": "#C9B789",
+        "name": "Plaster"
+      },
+      {
+        "hex": "#E3CF9E",
+        "name": "Wall highlight"
+      },
+      {
+        "hex": "#506E5D",
+        "name": "Rug green"
+      },
+      {
+        "hex": "#C19661",
+        "name": "Rug gold"
+      },
+      {
+        "hex": "#714839",
+        "name": "Rug shadow"
+      },
+      {
+        "hex": "#D3BD87",
+        "name": "Rug motif"
+      },
+      {
+        "hex": "#5C4833",
+        "name": "Window frame"
+      },
+      {
+        "hex": "#8DB9B0",
+        "name": "Day glass"
+      },
+      {
+        "hex": "#304A5B",
+        "name": "Night glass"
+      },
+      {
+        "hex": "#AE7056",
+        "name": "Curtain"
+      }
+    ]
+  },
+  "club": {
+    "title": "Club interior",
+    "source": "Selected exact colors from scripts/world/ClubInterior.gd.",
+    "colors": [
+      {
+        "hex": "#101421",
+        "name": "Surround"
+      },
+      {
+        "hex": "#090E19",
+        "name": "Speaker black"
+      },
+      {
+        "hex": "#171724",
+        "name": "Booth"
+      },
+      {
+        "hex": "#201E32",
+        "name": "Floor shadow"
+      },
+      {
+        "hex": "#28253B",
+        "name": "Floor base"
+      },
+      {
+        "hex": "#302C46",
+        "name": "Floor alternate"
+      },
+      {
+        "hex": "#34304B",
+        "name": "Walls"
+      },
+      {
+        "hex": "#56536E",
+        "name": "Equipment"
+      },
+      {
+        "hex": "#775771",
+        "name": "Bar"
+      },
+      {
+        "hex": "#D4A778",
+        "name": "Counter light"
+      },
+      {
+        "hex": "#79B4A5",
+        "name": "Bottles"
+      },
+      {
+        "hex": "#D3BF8D",
+        "name": "Bottle caps"
+      },
+      {
+        "hex": "#614263",
+        "name": "Seat shadow"
+      },
+      {
+        "hex": "#916185",
+        "name": "Seat base"
+      },
+      {
+        "hex": "#AA6D9B",
+        "name": "Stools"
+      },
+      {
+        "hex": "#B778CE",
+        "name": "Neon"
+      },
+      {
+        "hex": "#654D80",
+        "name": "Dance purple"
+      },
+      {
+        "hex": "#437F83",
+        "name": "Dance teal"
+      },
+      {
+        "hex": "#A76B83",
+        "name": "Dance pink"
+      },
+      {
+        "hex": "#698C80",
+        "name": "Exit trim"
+      },
+      {
+        "hex": "#283D3C",
+        "name": "Exit mat"
+      }
+    ]
+  },
+  "characters": {
+    "title": "Characters and wardrobe",
+    "source": "Runtime bases from Scenes/Player.gd and WardrobeManager.gd; added suggested outline, skin-shadow and skin-highlight colors. NPC costume ramps are suggestions, not PNG samples.",
+    "colors": [
+      {
+        "hex": "#242A29",
+        "name": "Hair base"
+      },
+      {
+        "hex": "#4B3229",
+        "name": "Hair brown"
+      },
+      {
+        "hex": "#352F46",
+        "name": "Hair plum"
+      },
+      {
+        "hex": "#70452F",
+        "name": "Skin deep base"
+      },
+      {
+        "hex": "#A46D48",
+        "name": "Skin medium base"
+      },
+      {
+        "hex": "#D2A07B",
+        "name": "Skin light base"
+      },
+      {
+        "hex": "#4E3025",
+        "name": "Suggested deep shadow"
+      },
+      {
+        "hex": "#875638",
+        "name": "Suggested medium shadow"
+      },
+      {
+        "hex": "#E3B58E",
+        "name": "Suggested skin highlight"
+      },
+      {
+        "hex": "#47856C",
+        "name": "Green shirt"
+      },
+      {
+        "hex": "#696DA8",
+        "name": "Indigo shirt"
+      },
+      {
+        "hex": "#C76C56",
+        "name": "Coral shirt"
+      },
+      {
+        "hex": "#D4AB54",
+        "name": "Gold shirt"
+      },
+      {
+        "hex": "#292E32",
+        "name": "Dark shoe"
+      },
+      {
+        "hex": "#EEE1C2",
+        "name": "Cream shoe"
+      },
+      {
+        "hex": "#8A4C3D",
+        "name": "Brown shoe"
+      },
+      {
+        "hex": "#253143",
+        "name": "Suggested trousers"
+      },
+      {
+        "hex": "#171E2B",
+        "name": "Suggested trouser shadow"
+      },
+      {
+        "hex": "#8A6835",
+        "name": "Suggested mustard shadow"
+      },
+      {
+        "hex": "#E3BF70",
+        "name": "Suggested mustard light"
+      },
+      {
+        "hex": "#824B40",
+        "name": "Suggested coral shadow"
+      },
+      {
+        "hex": "#E29A7D",
+        "name": "Suggested coral light"
+      },
+      {
+        "hex": "#315B59",
+        "name": "Suggested teal shadow"
+      },
+      {
+        "hex": "#7BB3A7",
+        "name": "Suggested teal light"
+      },
+      {
+        "hex": "#675B83",
+        "name": "Suggested lavender shadow"
+      },
+      {
+        "hex": "#C5B6DC",
+        "name": "Suggested lavender light"
+      },
+      {
+        "hex": "#35556D",
+        "name": "Suggested blue shadow"
+      },
+      {
+        "hex": "#88BAD1",
+        "name": "Suggested blue light"
+      }
+    ]
+  },
+  "player-masks": {
+    "title": "Player source mask colors",
+    "source": "Suggested technical colors chosen for the current LayeredCharacter.gd HSV and channel thresholds. Not a sample extraction. Use in source art before runtime wardrobe recoloring.",
+    "colors": [
+      {
+        "hex": "#116B71",
+        "name": "Shirt shadow"
+      },
+      {
+        "hex": "#18939C",
+        "name": "Shirt mid"
+      },
+      {
+        "hex": "#20BAC7",
+        "name": "Shirt base"
+      },
+      {
+        "hex": "#42D9DF",
+        "name": "Shirt light"
+      },
+      {
+        "hex": "#181A1B",
+        "name": "Hair shadow"
+      },
+      {
+        "hex": "#222426",
+        "name": "Hair base"
+      },
+      {
+        "hex": "#343739",
+        "name": "Hair light"
+      },
+      {
+        "hex": "#7C2323",
+        "name": "Shoe shadow"
+      },
+      {
+        "hex": "#BF3434",
+        "name": "Shoe base"
+      },
+      {
+        "hex": "#E95050",
+        "name": "Shoe light"
+      },
+      {
+        "hex": "#70452F",
+        "name": "Skin shadow"
+      },
+      {
+        "hex": "#A46D48",
+        "name": "Skin base"
+      },
+      {
+        "hex": "#CF9266",
+        "name": "Skin light"
+      },
+      {
+        "hex": "#253143",
+        "name": "Trousers"
+      },
+      {
+        "hex": "#171E2B",
+        "name": "Trouser shadow"
+      },
+      {
+        "hex": "#F2E6CF",
+        "name": "Eye highlight"
+      }
+    ]
+  },
+  "ui": {
+    "title": "Menus and HUD",
+    "source": "Selected exact colors from PixelMenuTheme.gd, GameUI.gd and UI/hud.gd.",
+    "colors": [
+      {
+        "hex": "#10261D",
+        "name": "Track"
+      },
+      {
+        "hex": "#14291F",
+        "name": "Pressed"
+      },
+      {
+        "hex": "#182A24",
+        "name": "HUD panel"
+      },
+      {
+        "hex": "#182D25",
+        "name": "Modal panel"
+      },
+      {
+        "hex": "#1C3026",
+        "name": "Disabled"
+      },
+      {
+        "hex": "#263F31",
+        "name": "Button base"
+      },
+      {
+        "hex": "#3B563C",
+        "name": "Button hover"
+      },
+      {
+        "hex": "#354C38",
+        "name": "Disabled edge"
+      },
+      {
+        "hex": "#465D43",
+        "name": "Track edge"
+      },
+      {
+        "hex": "#637656",
+        "name": "Button edge"
+      },
+      {
+        "hex": "#7B7955",
+        "name": "HUD edge"
+      },
+      {
+        "hex": "#82927D",
+        "name": "Disabled text"
+      },
+      {
+        "hex": "#A99A6A",
+        "name": "Panel edge"
+      },
+      {
+        "hex": "#BCA05D",
+        "name": "Gold base"
+      },
+      {
+        "hex": "#E4C78C",
+        "name": "Hover gold"
+      },
+      {
+        "hex": "#F4DB9A",
+        "name": "Selected marker"
+      },
+      {
+        "hex": "#F5DFA6",
+        "name": "Heading"
+      },
+      {
+        "hex": "#EFE6CD",
+        "name": "Body text"
+      },
+      {
+        "hex": "#FFF0CC",
+        "name": "Bright text"
+      }
+    ]
+  }
+}

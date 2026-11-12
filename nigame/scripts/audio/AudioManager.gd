@@ -33,7 +33,7 @@ func channel(bus: String, volume: float) -> AudioStreamPlayer:
 	return player
 
 func update_environment() -> void:
-	var id: String = "room" if Game.scenes.location == "room" else (str(Game.events.state.weather) if Game.events.state.weather != "clear" else "market")
+	var id: String = "room" if Game.scenes.location in ["room", "provisions", "club"] else (str(Game.events.state.weather) if Game.events.state.weather != "clear" else "market")
 	if environment == id: return
 	environment = id
 	ambience.stream = streams[id]

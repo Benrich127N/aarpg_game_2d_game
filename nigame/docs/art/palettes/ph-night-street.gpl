@@ -1,0 +1,20 @@
+GIMP Palette
+Name: PH NIGHT - Street and buildings
+Columns: 4
+# Selected exact colors from scripts/world/District.gd and Interactable.gd.
+ 96 121  90	Grass
+162 141 107	Earth
+ 77  98  97	Road
+ 59  68  62	Boundary
+ 36  56  47	Surround
+109 130 133	Business
+118 149 121	Lekki
+132 159 153	Island
+206 119  81	Food stall
+123 179 167	Kiosk
+169 154 208	Clothes
+227 189  69	Bus
+232 186  99	Interaction
+241 226 189	Light trim
+255 240 204	Sign text
+178 107 206	Club entrance

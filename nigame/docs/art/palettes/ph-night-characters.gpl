@@ -1,0 +1,32 @@
+GIMP Palette
+Name: PH NIGHT - Characters and wardrobe
+Columns: 4
+# Runtime bases from Scenes/Player.gd and WardrobeManager.gd; added suggested outline, skin-shadow and skin-highlight colors. NPC costume ramps are suggestions, not PNG samples.
+ 36  42  41	Hair base
+ 75  50  41	Hair brown
+ 53  47  70	Hair plum
+112  69  47	Skin deep base
+164 109  72	Skin medium base
+210 160 123	Skin light base
+ 78  48  37	Suggested deep shadow
+135  86  56	Suggested medium shadow
+227 181 142	Suggested skin highlight
+ 71 133 108	Green shirt
+105 109 168	Indigo shirt
+199 108  86	Coral shirt
+212 171  84	Gold shirt
+ 41  46  50	Dark shoe
+238 225 194	Cream shoe
+138  76  61	Brown shoe
+ 37  49  67	Suggested trousers
+ 23  30  43	Suggested trouser shadow
+138 104  53	Suggested mustard shadow
+227 191 112	Suggested mustard light
+130  75  64	Suggested coral shadow
+226 154 125	Suggested coral light
+ 49  91  89	Suggested teal shadow
+123 179 167	Suggested teal light
+103  91 131	Suggested lavender shadow
+197 182 220	Suggested lavender light
+ 53  85 109	Suggested blue shadow
+136 186 209	Suggested blue light

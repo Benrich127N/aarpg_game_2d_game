@@ -1,0 +1,24 @@
+GIMP Palette
+Name: PH NIGHT - Room interior
+Columns: 4
+# Selected exact colors from scripts/world/RoomInterior.gd.
+ 20  35  30	Surround
+ 12  24  20	Deep shadow
+ 92  65  44	Wood shadow
+145 102  63	Board seam
+172 128  82	Wood base
+182 139  91	Wood warm
+177 138  89	Wood muted
+187 145  96	Wood light
+118  90  60	Skirting
+173 141  88	Trim
+201 183 137	Plaster
+227 207 158	Wall highlight
+ 80 110  93	Rug green
+193 150  97	Rug gold
+113  72  57	Rug shadow
+211 189 135	Rug motif
+ 92  72  51	Window frame
+141 185 176	Day glass
+ 48  74  91	Night glass
+174 112  86	Curtain

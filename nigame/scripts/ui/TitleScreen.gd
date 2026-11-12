@@ -23,6 +23,7 @@ func setup(owner_ui: Node, has_save: bool) -> void:
 	scroll.offset_right = -30
 	scroll.offset_bottom = -34
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	scroll.follow_focus = true
 	add_child(scroll)
 	var column := VBoxContainer.new()
 	column.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -118,6 +119,7 @@ func add_button(column: VBoxContainer, text: String, action: Callable, primary: 
 	button.pressed.connect(func() -> void: Game.audio.sfx("click"))
 	button.pressed.connect(action)
 	column.add_child(button)
+	preload("res://scripts/ui/PixelMenuTheme.gd").decorate(button)
 	buttons[text] = button
 	if primary: first_button = button
 

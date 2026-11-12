@@ -91,17 +91,18 @@ func box(background: Color, edge: Color) -> StyleBoxFlat:
 	result.content_margin_bottom = 10
 	return result
 
-func open(ui: Node, id: String, text: String, options: Array) -> void:
+func open(ui: Node, id: String, text: String, options: Array, metadata: Dictionary = {}) -> void:
 	owner_ui = ui
 	npc_id = id
 	full_text = text
 	choices = options
 	page = 0
 	choice_page = 0
-	speaker.text = str(Game.dialogue.data[id].name)
-	role.text = "  ·  " + str(Game.dialogue.data[id].role)
+	var identity: Dictionary = metadata if not metadata.is_empty() else Game.dialogue.data[id]
+	speaker.text = str(identity.name)
+	role.text = "  ·  " + str(identity.role)
 	var head := AtlasTexture.new()
-	head.atlas = ART.frames(id).get_frame_texture("idle_down", 0)
+	head.atlas = preload("res://scripts/characters/VenueCast.gd").frames(id).get_frame_texture("idle_down", 0) if not metadata.is_empty() else ART.frames(id).get_frame_texture("idle_down", 0)
 	head.region = Rect2(4, 0, 24, 27)
 	portrait.texture = head
 	apply_scale(float(Game.settings.values.text_scale))
@@ -163,11 +164,14 @@ func add_response(text: String, action: Callable) -> void:
 	button.add_theme_stylebox_override("normal", box(Color("2c4635"), Color("6d805a")))
 	button.add_theme_stylebox_override("hover", box(Color("415c40"), Color("ead7a2")))
 	button.add_theme_stylebox_override("pressed", box(Color("14271e"), Color("ead7a2")))
-	button.add_theme_stylebox_override("focus", box(Color.TRANSPARENT, Color("f4e4b8")))
+	var focus := box(Color(0.95, 0.8, 0.5, 0.14), Color("f4e4b8"))
+	focus.set_border_width_all(3)
+	button.add_theme_stylebox_override("focus", focus)
 	button.add_theme_color_override("font_color", Color("f6eddb"))
 	button.pressed.connect(func() -> void: Game.audio.sfx("click"))
 	button.pressed.connect(action)
 	responses.add_child(button)
+	preload("res://scripts/ui/PixelMenuTheme.gd").decorate(button)
 	response_buttons.append(button)
 
 func focus_first() -> void:

@@ -16,7 +16,7 @@ func _ready() -> void:
 	sprite = AnimatedSprite2D.new()
 	sprite.name = "CharacterSprite"
 	sprite.sprite_frames = CHARACTER_ART.frames(action_id)
-	sprite.position = Vector2(0, -34)
+	sprite.position = preload("res://scripts/characters/CharacterGrounding.gd").VISUAL_ORIGIN
 	sprite.scale = Vector2(2, 2)
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	add_child(sprite)
@@ -36,7 +36,7 @@ func _schedule() -> void:
 
 func _physics_process(delta: float) -> void:
 	if Global.input_blocked:
-		sprite.play("idle_" + facing)
+		_update_animation(Vector2.ZERO, false)
 		return
 	var previous := position
 	var walking := false
@@ -46,9 +46,12 @@ func _physics_process(delta: float) -> void:
 		if not agent.is_navigation_finished():
 			position = position.move_toward(agent.get_next_path_position(), 55 * delta)
 			walking = position.distance_to(previous) > 0.01
+	_update_animation(position - previous, walking)
+	Game.events.state.positions[action_id] = [position.x, position.y]
+
+func _update_animation(movement: Vector2, walking: bool) -> void:
 	if walking:
-		var movement := position - previous
 		facing = "side" if absf(movement.x) > absf(movement.y) else ("up" if movement.y < 0 else "down")
 		if facing == "side": sprite.flip_h = movement.x < 0
+	if facing != "side": sprite.flip_h = false
 	sprite.play(("walk_" if walking else "idle_") + facing)
-	Game.events.state.positions[action_id] = [position.x, position.y]

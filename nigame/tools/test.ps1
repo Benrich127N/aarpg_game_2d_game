@@ -5,9 +5,20 @@ $enginePath = (Resolve-Path -LiteralPath $GodotExe).Path
 $cachePath = Join-Path $projectRoot '.godot'
 New-Item -ItemType Directory -Path $cachePath -Force | Out-Null
 $cases = @(
+@('ui-fixes', 'res://tests/UIFixes.tscn', ''),
+@('neighborhood-maps', 'res://tests/NeighborhoodMaps.tscn', ''),
+@('club-and-framing', 'res://tests/ClubAndFraming.tscn', ''),
+@('boot-loading', 'res://tests/BootLoading.tscn', ''),
+@('title-menu', 'res://tests/TitleMenu.tscn', ''),
+@('settings-tabs', 'res://tests/SettingsTabs.tscn', ''),
+@('pause-menu', 'res://tests/PauseMenu.tscn', ''),
+@('room-interior', 'res://tests/RoomInterior.tscn', ''),
 @('foundation', 'res://tests/Steps3To5.tscn', ''),
 @('daily-loop', 'res://tests/Steps6To15.tscn', ''),
 @('final-systems', 'res://tests/Steps16To19.tscn', ''),
+@('player-walk', 'res://tests/PlayerWalk.tscn', ''),
+@('npc-eyes', 'res://tests/NPCEyes.tscn', ''),
+@('hud-controls', 'res://tests/HUDControls.tscn', ''),
 @('dialogue-card', 'res://tests/DialogueCard.tscn', ''),
 @('restart-write', 'res://tests/PersistenceRestart.tscn', '-- write'),
 @('restart-read', 'res://tests/PersistenceRestart.tscn', ''))

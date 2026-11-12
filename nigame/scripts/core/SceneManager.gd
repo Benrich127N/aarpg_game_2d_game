@@ -1,6 +1,9 @@
 extends Node
 signal location_changed
 const DESTINATIONS: Dictionary = {
+	"courtyard": {"title": "Community Courtyard", "path": "res://Scenes/world/courtyard/Courtyard.tscn", "fare": 0, "minutes": 0, "tier": 0},
+	"provisions": {"title": "Provisions · Shop and Stockroom", "path": "res://Scenes/world/provisions/Provisions.tscn", "fare": 0, "minutes": 0, "tier": 0},
+	"club": {"title": "Club · PH Night", "path": "res://Scenes/world/club/Club.tscn", "fare": 0, "minutes": 0, "tier": 0},
 	"mainland": {"title": "Mainland", "path": "res://Scenes/world/mainland/Mainland.tscn", "fare": 100, "minutes": 30, "tier": 0},
 	"business": {"title": "Business District", "path": "res://Scenes/world/business_district/BusinessDistrict.tscn", "fare": 300, "minutes": 60, "tier": 1},
 	"lekki": {"title": "Lekki", "path": "res://Scenes/world/lekki/Lekki.tscn", "fare": 500, "minutes": 90, "tier": 1},
@@ -10,14 +13,16 @@ var location: String = "room"
 var spawn: String = "PlayerSpawn"
 var pending_position: Vector2 = Vector2(-1, -1)
 var busy: bool = false
+const LOCAL_EXITS := {"room": "DoorSpawn", "club": "ClubDoorSpawn", "courtyard": "CourtyardDoorSpawn", "provisions": "ShopDoorSpawn"}
 
 func travel(target: String, doorway: bool = false) -> bool:
 	if busy or not DESTINATIONS.has(target) or target == location: return false
 	if not Game.jobs.active.is_empty():
 		Game.message("Finish or cancel your job before travelling.")
 		return false
-	if doorway and not ((location == "room" and target == "mainland") or (location == "mainland" and target == "room")): return false
-	if not doorway and target == "room": return false
+	var previous := location
+	if doorway and not ((LOCAL_EXITS.has(location) and target == "mainland") or (location == "mainland" and LOCAL_EXITS.has(target))): return false
+	if not doorway and LOCAL_EXITS.has(target): return false
 	if not doorway and Game.progression.tier() < int(DESTINATIONS[target].tier):
 		Game.message("Build your career and reputation to unlock this district.")
 		return false
@@ -30,6 +35,7 @@ func travel(target: String, doorway: bool = false) -> bool:
 	if fare > 0: Global.spend_cash(fare)
 	location = target
 	spawn = "DoorSpawn" if doorway and target == "mainland" else "PlayerSpawn"
+	if doorway and target == "mainland": spawn = LOCAL_EXITS[previous]
 	pending_position = Vector2(-1, -1)
 	if not doorway:
 		Game.audio.sfx("bus")

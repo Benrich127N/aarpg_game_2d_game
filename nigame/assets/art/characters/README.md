@@ -1,5 +1,7 @@
 # PH NIGHT character pack
 
+For hand-drawn replacements, see the [Aseprite redraw workbook](../../../docs/Aseprite_Redraw_Guide.md). It includes palette files and explains the current frame-processing and wardrobe constraints.
+
 Six transparent PNG source sheets, generated using the built-in OpenAI image generation tool for this project without reference images or third-party input art. Exact prompts are saved in [generation-prompts.txt](generation-prompts.txt).
 
 | File | Character |
@@ -18,6 +20,10 @@ Each source is **1182 × 1330** pixels, with **four columns and three rows**. Ro
 `LayeredCharacter.gd` separates the player's cyan shirt, dark hair, red shoes and remaining body into non-overlapping runtime palette layers. Wardrobe shirt, skin, hair colour and shoe colour choices remain functional, including the existing preview and saved state. This pack provides one hairstyle silhouette with three hair colours. Original source PNGs are preserved; frame processing and palette changes happen in Godot and are cached.
 
 Player idle: after standing still for 0.35 seconds, `Scenes/Player.gd` applies a subtle stepped breathing transform over a 2.8-second cycle. All four wardrobe layers share the same transform, with the soles anchored and collision unchanged. It works in every facing direction, returns to the neutral pose on movement or opening a menu, and stays still with reduced motion enabled. `tests/PlayerIdle.tscn` checks breathing, foot anchoring, layer alignment, direction retention, walking transitions and reduced motion.
+
+Player walking correction: the original front/back sheets repeat the same leading leg in both stride columns. `CharacterArt.player_cells()` now uses a stable passing pose and mirrored opposite contact poses, aligned using opaque head bounds so faint alpha fringes cannot move the anchor. Source PNGs and NPC animation assets remain preserved. `Scenes/Player.gd` drives all four wardrobe layers from one distance-based phase (one cycle per 144 world pixels), with footsteps at half-cycle intervals. The player no longer advances four independent animation clocks, and pressing into a wall returns to standing. `tests/PlayerWalk.tscn` verifies alternating feet, head alignment, layer synchronisation, both vertical directions and collision stops; it is included in `tools/test.ps1`.
+
+NPC eye correction: independently sampled generated poses could lose an eye highlight or move the pupils at 32 × 48 resolution. `CharacterArt.npc_cells()` selects an existing face with balanced, aligned eyes for each NPC direction and rigs that same head over every aligned walking body. Front, back and profile heads stay stable, while limbs continue animating. The original source sheets remain unchanged. Dialogue portraits and menu illustrations share these corrected frames. `NPC.gd` clears horizontal mirroring when turning from a left-facing profile to front/back. `tests/NPCEyes.tscn` verifies visible paired eyes, matching eye baselines, stable heads across all frames/directions, continuing body animation and direction transitions for all five NPCs; it is included in `tools/test.ps1`.
 
 Validation: Godot 4.4.1 import and rendered room/street/wardrobe review completed. All five existing regression suites passed. `tests/CharacterArt.tscn` additionally verifies animation counts, visible frame content, dimensions, transparent corners, wardrobe colour changes, and non-overlapping layers.
 

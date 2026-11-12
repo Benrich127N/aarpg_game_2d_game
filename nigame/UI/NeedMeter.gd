@@ -23,13 +23,14 @@ func setup(stat: String) -> void:
 	border.set_border_width_all(1)
 	border.content_margin_left = 8
 	border.content_margin_right = 10
-	border.content_margin_top = 8
-	border.content_margin_bottom = 8
+	border.content_margin_top = 4
+	border.content_margin_bottom = 4
 	add_theme_stylebox_override("panel", border)
 	var row := HBoxContainer.new()
 	row.add_theme_constant_override("separation", 10)
 	add_child(row)
 	icon = ICON.new()
+	icon.custom_minimum_size = Vector2(28, 28)
 	icon.kind = kind
 	icon.accent = ACCENTS[kind]
 	row.add_child(icon)
@@ -91,6 +92,7 @@ func update_value(value: int, reduced_motion: bool) -> void:
 		"Energy": ["Rested", "Tired · rest soon", "Exhausted · sleep"],
 	}
 	status.text = descriptions[kind][2 if critical else (1 if low else 0)]
+	status.visible = low
 	status.add_theme_color_override("font_color", accent if low else Color("b8c7b6"))
 	tooltip_text = "%s: %d / 100. %s. Higher is better." % [kind, next, status.text]
 	if kind == "Hunger": tooltip_text += " Food restores fullness; a full bar means well fed."

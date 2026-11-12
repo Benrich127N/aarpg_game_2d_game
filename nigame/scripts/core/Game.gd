@@ -28,6 +28,7 @@ func service(path: String, service_name: String) -> Node:
 	return node
 
 func _ready() -> void:
+	get_window().min_size = Vector2i(960, 540)
 	if DisplayServer.get_name() != "headless": DisplayServer.window_set_title("PH NIGHT")
 	inventory = service("res://scripts/inventory/InventoryManager.gd", "InventoryManager")
 	jobs = service("res://scripts/jobs/JobManager.gd", "JobManager")

@@ -52,8 +52,9 @@ func valid(data: Variant) -> bool:
 	if not jobs.active.is_empty():
 		if not Game.jobs.catalog.has(jobs.active.get("id")) or not number(jobs.active.get("token"), 1, int(jobs.attempts)) or not number(jobs.active.get("started"), 0, 2000000000): return false
 		if jobs.active.id == "stock" and (jobs.order.size() != 3 or not "rice" in jobs.order or not "water" in jobs.order or not "soap" in jobs.order or jobs.index >= 3): return false
+		if jobs.active.id == "club" and (data.location != "club" or jobs.order.size() != 3 or not "water" in jobs.order or not "juice" in jobs.order or not "soda" in jobs.order or jobs.index >= 3): return false
 	for item in jobs.order:
-		if not item is String or not item in ["rice", "water", "soap"]: return false
+		if not item is String or not item in ["rice", "water", "soap", "juice", "soda"]: return false
 	var dialogue_keys: Array = []
 	for id in Game.relationships.NPC_IDS:
 		for choice in ["greet", "help", "interest"]: dialogue_keys.append(id + ":" + choice)

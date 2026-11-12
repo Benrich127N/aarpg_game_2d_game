@@ -1,0 +1,20 @@
+GIMP Palette
+Name: PH NIGHT - Player source mask colors
+Columns: 4
+# Suggested technical colors chosen for the current LayeredCharacter.gd HSV and channel thresholds. Not a sample extraction. Use in source art before runtime wardrobe recoloring.
+ 17 107 113	Shirt shadow
+ 24 147 156	Shirt mid
+ 32 186 199	Shirt base
+ 66 217 223	Shirt light
+ 24  26  27	Hair shadow
+ 34  36  38	Hair base
+ 52  55  57	Hair light
+124  35  35	Shoe shadow
+191  52  52	Shoe base
+233  80  80	Shoe light
+112  69  47	Skin shadow
+164 109  72	Skin base
+207 146 102	Skin light
+ 37  49  67	Trousers
+ 23  30  43	Trouser shadow
+242 230 207	Eye highlight

@@ -29,7 +29,29 @@ func rebuild_world() -> void:
 		$Player.position = old_position
 	else:
 		$Player.position = district.get_node(Game.scenes.spawn).position
-	$Player/Camera2D.reset_smoothing()
+	# Recover saves made after walking beyond an interior's visible footprint.
+	var bounds: Rect2 = district.player_bounds()
+	if not bounds.has_point($Player.position):
+		$Player.position = district.get_node("PlayerSpawn").position
+	var camera: Camera2D = $Player/Camera2D
+	# Leave room for the character's head and the HUD at every street edge.
+	camera.limit_left = -96
+	camera.limit_top = -160
+	camera.limit_right = 2016
+	camera.limit_bottom = 1248
+	if Game.scenes.location == "room":
+		camera.top_level = true
+		camera.zoom = Vector2(1.125, 1.125)
+		camera.global_position = district.get_node("RoomInterior").camera_center()
+	elif Game.scenes.location in ["club", "courtyard", "provisions"]:
+		camera.top_level = true
+		camera.zoom = Vector2.ONE
+		camera.global_position = Vector2(640, 380)
+	else:
+		camera.top_level = false
+		camera.position = Vector2.ZERO
+		camera.zoom = Vector2.ONE
+	camera.reset_smoothing()
 	settle_frames = 2
 	Game.scene_load_ms.append(float(Time.get_ticks_usec() - load_start) / 1000.0)
 	if Game.scene_load_ms.size() > 100: Game.scene_load_ms.pop_front()

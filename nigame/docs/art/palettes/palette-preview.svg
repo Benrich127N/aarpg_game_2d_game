@@ -1,0 +1,372 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1040" height="2166" viewBox="0 0 1040 2166">
+<title>PH NIGHT redraw palettes</title>
+<desc>Named swatches for street, room, club, characters, player masks and interface. Exact hex values and provenance are also in palettes.json.</desc>
+<style>text { font-family: sans-serif; } .heading { fill: #f5dfa6; font-size: 21px; } .label { fill: #efe6cd; font-size: 13px; } .hex { fill: #b9c5b5; font-size: 13px; font-family: monospace; }</style>
+<rect width="1040" height="2166" fill="#14231e"/>
+<text x="24" y="56" class="heading">Street and buildings</text>
+<rect x="24" y="74" width="44" height="40" fill="#60795A" stroke="#7b7955"/>
+<text x="78" y="90" class="label">Grass</text>
+<text x="78" y="108" class="hex">#60795A</text>
+<rect x="276" y="74" width="44" height="40" fill="#A28D6B" stroke="#7b7955"/>
+<text x="330" y="90" class="label">Earth</text>
+<text x="330" y="108" class="hex">#A28D6B</text>
+<rect x="528" y="74" width="44" height="40" fill="#4D6261" stroke="#7b7955"/>
+<text x="582" y="90" class="label">Road</text>
+<text x="582" y="108" class="hex">#4D6261</text>
+<rect x="780" y="74" width="44" height="40" fill="#3B443E" stroke="#7b7955"/>
+<text x="834" y="90" class="label">Boundary</text>
+<text x="834" y="108" class="hex">#3B443E</text>
+<rect x="24" y="132" width="44" height="40" fill="#24382F" stroke="#7b7955"/>
+<text x="78" y="148" class="label">Surround</text>
+<text x="78" y="166" class="hex">#24382F</text>
+<rect x="276" y="132" width="44" height="40" fill="#6D8285" stroke="#7b7955"/>
+<text x="330" y="148" class="label">Business</text>
+<text x="330" y="166" class="hex">#6D8285</text>
+<rect x="528" y="132" width="44" height="40" fill="#769579" stroke="#7b7955"/>
+<text x="582" y="148" class="label">Lekki</text>
+<text x="582" y="166" class="hex">#769579</text>
+<rect x="780" y="132" width="44" height="40" fill="#849F99" stroke="#7b7955"/>
+<text x="834" y="148" class="label">Island</text>
+<text x="834" y="166" class="hex">#849F99</text>
+<rect x="24" y="190" width="44" height="40" fill="#CE7751" stroke="#7b7955"/>
+<text x="78" y="206" class="label">Food stall</text>
+<text x="78" y="224" class="hex">#CE7751</text>
+<rect x="276" y="190" width="44" height="40" fill="#7BB3A7" stroke="#7b7955"/>
+<text x="330" y="206" class="label">Kiosk</text>
+<text x="330" y="224" class="hex">#7BB3A7</text>
+<rect x="528" y="190" width="44" height="40" fill="#A99AD0" stroke="#7b7955"/>
+<text x="582" y="206" class="label">Clothes</text>
+<text x="582" y="224" class="hex">#A99AD0</text>
+<rect x="780" y="190" width="44" height="40" fill="#E3BD45" stroke="#7b7955"/>
+<text x="834" y="206" class="label">Bus</text>
+<text x="834" y="224" class="hex">#E3BD45</text>
+<rect x="24" y="248" width="44" height="40" fill="#E8BA63" stroke="#7b7955"/>
+<text x="78" y="264" class="label">Interaction</text>
+<text x="78" y="282" class="hex">#E8BA63</text>
+<rect x="276" y="248" width="44" height="40" fill="#F1E2BD" stroke="#7b7955"/>
+<text x="330" y="264" class="label">Light trim</text>
+<text x="330" y="282" class="hex">#F1E2BD</text>
+<rect x="528" y="248" width="44" height="40" fill="#FFF0CC" stroke="#7b7955"/>
+<text x="582" y="264" class="label">Sign text</text>
+<text x="582" y="282" class="hex">#FFF0CC</text>
+<rect x="780" y="248" width="44" height="40" fill="#B26BCE" stroke="#7b7955"/>
+<text x="834" y="264" class="label">Club entrance</text>
+<text x="834" y="282" class="hex">#B26BCE</text>
+<text x="24" y="340" class="heading">Room interior</text>
+<rect x="24" y="358" width="44" height="40" fill="#14231E" stroke="#7b7955"/>
+<text x="78" y="374" class="label">Surround</text>
+<text x="78" y="392" class="hex">#14231E</text>
+<rect x="276" y="358" width="44" height="40" fill="#0C1814" stroke="#7b7955"/>
+<text x="330" y="374" class="label">Deep shadow</text>
+<text x="330" y="392" class="hex">#0C1814</text>
+<rect x="528" y="358" width="44" height="40" fill="#5C412C" stroke="#7b7955"/>
+<text x="582" y="374" class="label">Wood shadow</text>
+<text x="582" y="392" class="hex">#5C412C</text>
+<rect x="780" y="358" width="44" height="40" fill="#91663F" stroke="#7b7955"/>
+<text x="834" y="374" class="label">Board seam</text>
+<text x="834" y="392" class="hex">#91663F</text>
+<rect x="24" y="416" width="44" height="40" fill="#AC8052" stroke="#7b7955"/>
+<text x="78" y="432" class="label">Wood base</text>
+<text x="78" y="450" class="hex">#AC8052</text>
+<rect x="276" y="416" width="44" height="40" fill="#B68B5B" stroke="#7b7955"/>
+<text x="330" y="432" class="label">Wood warm</text>
+<text x="330" y="450" class="hex">#B68B5B</text>
+<rect x="528" y="416" width="44" height="40" fill="#B18A59" stroke="#7b7955"/>
+<text x="582" y="432" class="label">Wood muted</text>
+<text x="582" y="450" class="hex">#B18A59</text>
+<rect x="780" y="416" width="44" height="40" fill="#BB9160" stroke="#7b7955"/>
+<text x="834" y="432" class="label">Wood light</text>
+<text x="834" y="450" class="hex">#BB9160</text>
+<rect x="24" y="474" width="44" height="40" fill="#765A3C" stroke="#7b7955"/>
+<text x="78" y="490" class="label">Skirting</text>
+<text x="78" y="508" class="hex">#765A3C</text>
+<rect x="276" y="474" width="44" height="40" fill="#AD8D58" stroke="#7b7955"/>
+<text x="330" y="490" class="label">Trim</text>
+<text x="330" y="508" class="hex">#AD8D58</text>
+<rect x="528" y="474" width="44" height="40" fill="#C9B789" stroke="#7b7955"/>
+<text x="582" y="490" class="label">Plaster</text>
+<text x="582" y="508" class="hex">#C9B789</text>
+<rect x="780" y="474" width="44" height="40" fill="#E3CF9E" stroke="#7b7955"/>
+<text x="834" y="490" class="label">Wall highlight</text>
+<text x="834" y="508" class="hex">#E3CF9E</text>
+<rect x="24" y="532" width="44" height="40" fill="#506E5D" stroke="#7b7955"/>
+<text x="78" y="548" class="label">Rug green</text>
+<text x="78" y="566" class="hex">#506E5D</text>
+<rect x="276" y="532" width="44" height="40" fill="#C19661" stroke="#7b7955"/>
+<text x="330" y="548" class="label">Rug gold</text>
+<text x="330" y="566" class="hex">#C19661</text>
+<rect x="528" y="532" width="44" height="40" fill="#714839" stroke="#7b7955"/>
+<text x="582" y="548" class="label">Rug shadow</text>
+<text x="582" y="566" class="hex">#714839</text>
+<rect x="780" y="532" width="44" height="40" fill="#D3BD87" stroke="#7b7955"/>
+<text x="834" y="548" class="label">Rug motif</text>
+<text x="834" y="566" class="hex">#D3BD87</text>
+<rect x="24" y="590" width="44" height="40" fill="#5C4833" stroke="#7b7955"/>
+<text x="78" y="606" class="label">Window frame</text>
+<text x="78" y="624" class="hex">#5C4833</text>
+<rect x="276" y="590" width="44" height="40" fill="#8DB9B0" stroke="#7b7955"/>
+<text x="330" y="606" class="label">Day glass</text>
+<text x="330" y="624" class="hex">#8DB9B0</text>
+<rect x="528" y="590" width="44" height="40" fill="#304A5B" stroke="#7b7955"/>
+<text x="582" y="606" class="label">Night glass</text>
+<text x="582" y="624" class="hex">#304A5B</text>
+<rect x="780" y="590" width="44" height="40" fill="#AE7056" stroke="#7b7955"/>
+<text x="834" y="606" class="label">Curtain</text>
+<text x="834" y="624" class="hex">#AE7056</text>
+<text x="24" y="682" class="heading">Club interior</text>
+<rect x="24" y="700" width="44" height="40" fill="#101421" stroke="#7b7955"/>
+<text x="78" y="716" class="label">Surround</text>
+<text x="78" y="734" class="hex">#101421</text>
+<rect x="276" y="700" width="44" height="40" fill="#090E19" stroke="#7b7955"/>
+<text x="330" y="716" class="label">Speaker black</text>
+<text x="330" y="734" class="hex">#090E19</text>
+<rect x="528" y="700" width="44" height="40" fill="#171724" stroke="#7b7955"/>
+<text x="582" y="716" class="label">Booth</text>
+<text x="582" y="734" class="hex">#171724</text>
+<rect x="780" y="700" width="44" height="40" fill="#201E32" stroke="#7b7955"/>
+<text x="834" y="716" class="label">Floor shadow</text>
+<text x="834" y="734" class="hex">#201E32</text>
+<rect x="24" y="758" width="44" height="40" fill="#28253B" stroke="#7b7955"/>
+<text x="78" y="774" class="label">Floor base</text>
+<text x="78" y="792" class="hex">#28253B</text>
+<rect x="276" y="758" width="44" height="40" fill="#302C46" stroke="#7b7955"/>
+<text x="330" y="774" class="label">Floor alternate</text>
+<text x="330" y="792" class="hex">#302C46</text>
+<rect x="528" y="758" width="44" height="40" fill="#34304B" stroke="#7b7955"/>
+<text x="582" y="774" class="label">Walls</text>
+<text x="582" y="792" class="hex">#34304B</text>
+<rect x="780" y="758" width="44" height="40" fill="#56536E" stroke="#7b7955"/>
+<text x="834" y="774" class="label">Equipment</text>
+<text x="834" y="792" class="hex">#56536E</text>
+<rect x="24" y="816" width="44" height="40" fill="#775771" stroke="#7b7955"/>
+<text x="78" y="832" class="label">Bar</text>
+<text x="78" y="850" class="hex">#775771</text>
+<rect x="276" y="816" width="44" height="40" fill="#D4A778" stroke="#7b7955"/>
+<text x="330" y="832" class="label">Counter light</text>
+<text x="330" y="850" class="hex">#D4A778</text>
+<rect x="528" y="816" width="44" height="40" fill="#79B4A5" stroke="#7b7955"/>
+<text x="582" y="832" class="label">Bottles</text>
+<text x="582" y="850" class="hex">#79B4A5</text>
+<rect x="780" y="816" width="44" height="40" fill="#D3BF8D" stroke="#7b7955"/>
+<text x="834" y="832" class="label">Bottle caps</text>
+<text x="834" y="850" class="hex">#D3BF8D</text>
+<rect x="24" y="874" width="44" height="40" fill="#614263" stroke="#7b7955"/>
+<text x="78" y="890" class="label">Seat shadow</text>
+<text x="78" y="908" class="hex">#614263</text>
+<rect x="276" y="874" width="44" height="40" fill="#916185" stroke="#7b7955"/>
+<text x="330" y="890" class="label">Seat base</text>
+<text x="330" y="908" class="hex">#916185</text>
+<rect x="528" y="874" width="44" height="40" fill="#AA6D9B" stroke="#7b7955"/>
+<text x="582" y="890" class="label">Stools</text>
+<text x="582" y="908" class="hex">#AA6D9B</text>
+<rect x="780" y="874" width="44" height="40" fill="#B778CE" stroke="#7b7955"/>
+<text x="834" y="890" class="label">Neon</text>
+<text x="834" y="908" class="hex">#B778CE</text>
+<rect x="24" y="932" width="44" height="40" fill="#654D80" stroke="#7b7955"/>
+<text x="78" y="948" class="label">Dance purple</text>
+<text x="78" y="966" class="hex">#654D80</text>
+<rect x="276" y="932" width="44" height="40" fill="#437F83" stroke="#7b7955"/>
+<text x="330" y="948" class="label">Dance teal</text>
+<text x="330" y="966" class="hex">#437F83</text>
+<rect x="528" y="932" width="44" height="40" fill="#A76B83" stroke="#7b7955"/>
+<text x="582" y="948" class="label">Dance pink</text>
+<text x="582" y="966" class="hex">#A76B83</text>
+<rect x="780" y="932" width="44" height="40" fill="#698C80" stroke="#7b7955"/>
+<text x="834" y="948" class="label">Exit trim</text>
+<text x="834" y="966" class="hex">#698C80</text>
+<rect x="24" y="990" width="44" height="40" fill="#283D3C" stroke="#7b7955"/>
+<text x="78" y="1006" class="label">Exit mat</text>
+<text x="78" y="1024" class="hex">#283D3C</text>
+<text x="24" y="1082" class="heading">Characters and wardrobe</text>
+<rect x="24" y="1100" width="44" height="40" fill="#242A29" stroke="#7b7955"/>
+<text x="78" y="1116" class="label">Hair base</text>
+<text x="78" y="1134" class="hex">#242A29</text>
+<rect x="276" y="1100" width="44" height="40" fill="#4B3229" stroke="#7b7955"/>
+<text x="330" y="1116" class="label">Hair brown</text>
+<text x="330" y="1134" class="hex">#4B3229</text>
+<rect x="528" y="1100" width="44" height="40" fill="#352F46" stroke="#7b7955"/>
+<text x="582" y="1116" class="label">Hair plum</text>
+<text x="582" y="1134" class="hex">#352F46</text>
+<rect x="780" y="1100" width="44" height="40" fill="#70452F" stroke="#7b7955"/>
+<text x="834" y="1116" class="label">Skin deep base</text>
+<text x="834" y="1134" class="hex">#70452F</text>
+<rect x="24" y="1158" width="44" height="40" fill="#A46D48" stroke="#7b7955"/>
+<text x="78" y="1174" class="label">Skin medium base</text>
+<text x="78" y="1192" class="hex">#A46D48</text>
+<rect x="276" y="1158" width="44" height="40" fill="#D2A07B" stroke="#7b7955"/>
+<text x="330" y="1174" class="label">Skin light base</text>
+<text x="330" y="1192" class="hex">#D2A07B</text>
+<rect x="528" y="1158" width="44" height="40" fill="#4E3025" stroke="#7b7955"/>
+<text x="582" y="1174" class="label">Suggested deep shadow</text>
+<text x="582" y="1192" class="hex">#4E3025</text>
+<rect x="780" y="1158" width="44" height="40" fill="#875638" stroke="#7b7955"/>
+<text x="834" y="1174" class="label">Suggested medium shadow</text>
+<text x="834" y="1192" class="hex">#875638</text>
+<rect x="24" y="1216" width="44" height="40" fill="#E3B58E" stroke="#7b7955"/>
+<text x="78" y="1232" class="label">Suggested skin highlight</text>
+<text x="78" y="1250" class="hex">#E3B58E</text>
+<rect x="276" y="1216" width="44" height="40" fill="#47856C" stroke="#7b7955"/>
+<text x="330" y="1232" class="label">Green shirt</text>
+<text x="330" y="1250" class="hex">#47856C</text>
+<rect x="528" y="1216" width="44" height="40" fill="#696DA8" stroke="#7b7955"/>
+<text x="582" y="1232" class="label">Indigo shirt</text>
+<text x="582" y="1250" class="hex">#696DA8</text>
+<rect x="780" y="1216" width="44" height="40" fill="#C76C56" stroke="#7b7955"/>
+<text x="834" y="1232" class="label">Coral shirt</text>
+<text x="834" y="1250" class="hex">#C76C56</text>
+<rect x="24" y="1274" width="44" height="40" fill="#D4AB54" stroke="#7b7955"/>
+<text x="78" y="1290" class="label">Gold shirt</text>
+<text x="78" y="1308" class="hex">#D4AB54</text>
+<rect x="276" y="1274" width="44" height="40" fill="#292E32" stroke="#7b7955"/>
+<text x="330" y="1290" class="label">Dark shoe</text>
+<text x="330" y="1308" class="hex">#292E32</text>
+<rect x="528" y="1274" width="44" height="40" fill="#EEE1C2" stroke="#7b7955"/>
+<text x="582" y="1290" class="label">Cream shoe</text>
+<text x="582" y="1308" class="hex">#EEE1C2</text>
+<rect x="780" y="1274" width="44" height="40" fill="#8A4C3D" stroke="#7b7955"/>
+<text x="834" y="1290" class="label">Brown shoe</text>
+<text x="834" y="1308" class="hex">#8A4C3D</text>
+<rect x="24" y="1332" width="44" height="40" fill="#253143" stroke="#7b7955"/>
+<text x="78" y="1348" class="label">Suggested trousers</text>
+<text x="78" y="1366" class="hex">#253143</text>
+<rect x="276" y="1332" width="44" height="40" fill="#171E2B" stroke="#7b7955"/>
+<text x="330" y="1348" class="label">Suggested trouser shadow</text>
+<text x="330" y="1366" class="hex">#171E2B</text>
+<rect x="528" y="1332" width="44" height="40" fill="#8A6835" stroke="#7b7955"/>
+<text x="582" y="1348" class="label">Suggested mustard shadow</text>
+<text x="582" y="1366" class="hex">#8A6835</text>
+<rect x="780" y="1332" width="44" height="40" fill="#E3BF70" stroke="#7b7955"/>
+<text x="834" y="1348" class="label">Suggested mustard light</text>
+<text x="834" y="1366" class="hex">#E3BF70</text>
+<rect x="24" y="1390" width="44" height="40" fill="#824B40" stroke="#7b7955"/>
+<text x="78" y="1406" class="label">Suggested coral shadow</text>
+<text x="78" y="1424" class="hex">#824B40</text>
+<rect x="276" y="1390" width="44" height="40" fill="#E29A7D" stroke="#7b7955"/>
+<text x="330" y="1406" class="label">Suggested coral light</text>
+<text x="330" y="1424" class="hex">#E29A7D</text>
+<rect x="528" y="1390" width="44" height="40" fill="#315B59" stroke="#7b7955"/>
+<text x="582" y="1406" class="label">Suggested teal shadow</text>
+<text x="582" y="1424" class="hex">#315B59</text>
+<rect x="780" y="1390" width="44" height="40" fill="#7BB3A7" stroke="#7b7955"/>
+<text x="834" y="1406" class="label">Suggested teal light</text>
+<text x="834" y="1424" class="hex">#7BB3A7</text>
+<rect x="24" y="1448" width="44" height="40" fill="#675B83" stroke="#7b7955"/>
+<text x="78" y="1464" class="label">Suggested lavender shadow</text>
+<text x="78" y="1482" class="hex">#675B83</text>
+<rect x="276" y="1448" width="44" height="40" fill="#C5B6DC" stroke="#7b7955"/>
+<text x="330" y="1464" class="label">Suggested lavender light</text>
+<text x="330" y="1482" class="hex">#C5B6DC</text>
+<rect x="528" y="1448" width="44" height="40" fill="#35556D" stroke="#7b7955"/>
+<text x="582" y="1464" class="label">Suggested blue shadow</text>
+<text x="582" y="1482" class="hex">#35556D</text>
+<rect x="780" y="1448" width="44" height="40" fill="#88BAD1" stroke="#7b7955"/>
+<text x="834" y="1464" class="label">Suggested blue light</text>
+<text x="834" y="1482" class="hex">#88BAD1</text>
+<text x="24" y="1540" class="heading">Player source mask colors</text>
+<rect x="24" y="1558" width="44" height="40" fill="#116B71" stroke="#7b7955"/>
+<text x="78" y="1574" class="label">Shirt shadow</text>
+<text x="78" y="1592" class="hex">#116B71</text>
+<rect x="276" y="1558" width="44" height="40" fill="#18939C" stroke="#7b7955"/>
+<text x="330" y="1574" class="label">Shirt mid</text>
+<text x="330" y="1592" class="hex">#18939C</text>
+<rect x="528" y="1558" width="44" height="40" fill="#20BAC7" stroke="#7b7955"/>
+<text x="582" y="1574" class="label">Shirt base</text>
+<text x="582" y="1592" class="hex">#20BAC7</text>
+<rect x="780" y="1558" width="44" height="40" fill="#42D9DF" stroke="#7b7955"/>
+<text x="834" y="1574" class="label">Shirt light</text>
+<text x="834" y="1592" class="hex">#42D9DF</text>
+<rect x="24" y="1616" width="44" height="40" fill="#181A1B" stroke="#7b7955"/>
+<text x="78" y="1632" class="label">Hair shadow</text>
+<text x="78" y="1650" class="hex">#181A1B</text>
+<rect x="276" y="1616" width="44" height="40" fill="#222426" stroke="#7b7955"/>
+<text x="330" y="1632" class="label">Hair base</text>
+<text x="330" y="1650" class="hex">#222426</text>
+<rect x="528" y="1616" width="44" height="40" fill="#343739" stroke="#7b7955"/>
+<text x="582" y="1632" class="label">Hair light</text>
+<text x="582" y="1650" class="hex">#343739</text>
+<rect x="780" y="1616" width="44" height="40" fill="#7C2323" stroke="#7b7955"/>
+<text x="834" y="1632" class="label">Shoe shadow</text>
+<text x="834" y="1650" class="hex">#7C2323</text>
+<rect x="24" y="1674" width="44" height="40" fill="#BF3434" stroke="#7b7955"/>
+<text x="78" y="1690" class="label">Shoe base</text>
+<text x="78" y="1708" class="hex">#BF3434</text>
+<rect x="276" y="1674" width="44" height="40" fill="#E95050" stroke="#7b7955"/>
+<text x="330" y="1690" class="label">Shoe light</text>
+<text x="330" y="1708" class="hex">#E95050</text>
+<rect x="528" y="1674" width="44" height="40" fill="#70452F" stroke="#7b7955"/>
+<text x="582" y="1690" class="label">Skin shadow</text>
+<text x="582" y="1708" class="hex">#70452F</text>
+<rect x="780" y="1674" width="44" height="40" fill="#A46D48" stroke="#7b7955"/>
+<text x="834" y="1690" class="label">Skin base</text>
+<text x="834" y="1708" class="hex">#A46D48</text>
+<rect x="24" y="1732" width="44" height="40" fill="#CF9266" stroke="#7b7955"/>
+<text x="78" y="1748" class="label">Skin light</text>
+<text x="78" y="1766" class="hex">#CF9266</text>
+<rect x="276" y="1732" width="44" height="40" fill="#253143" stroke="#7b7955"/>
+<text x="330" y="1748" class="label">Trousers</text>
+<text x="330" y="1766" class="hex">#253143</text>
+<rect x="528" y="1732" width="44" height="40" fill="#171E2B" stroke="#7b7955"/>
+<text x="582" y="1748" class="label">Trouser shadow</text>
+<text x="582" y="1766" class="hex">#171E2B</text>
+<rect x="780" y="1732" width="44" height="40" fill="#F2E6CF" stroke="#7b7955"/>
+<text x="834" y="1748" class="label">Eye highlight</text>
+<text x="834" y="1766" class="hex">#F2E6CF</text>
+<text x="24" y="1824" class="heading">Menus and HUD</text>
+<rect x="24" y="1842" width="44" height="40" fill="#10261D" stroke="#7b7955"/>
+<text x="78" y="1858" class="label">Track</text>
+<text x="78" y="1876" class="hex">#10261D</text>
+<rect x="276" y="1842" width="44" height="40" fill="#14291F" stroke="#7b7955"/>
+<text x="330" y="1858" class="label">Pressed</text>
+<text x="330" y="1876" class="hex">#14291F</text>
+<rect x="528" y="1842" width="44" height="40" fill="#182A24" stroke="#7b7955"/>
+<text x="582" y="1858" class="label">HUD panel</text>
+<text x="582" y="1876" class="hex">#182A24</text>
+<rect x="780" y="1842" width="44" height="40" fill="#182D25" stroke="#7b7955"/>
+<text x="834" y="1858" class="label">Modal panel</text>
+<text x="834" y="1876" class="hex">#182D25</text>
+<rect x="24" y="1900" width="44" height="40" fill="#1C3026" stroke="#7b7955"/>
+<text x="78" y="1916" class="label">Disabled</text>
+<text x="78" y="1934" class="hex">#1C3026</text>
+<rect x="276" y="1900" width="44" height="40" fill="#263F31" stroke="#7b7955"/>
+<text x="330" y="1916" class="label">Button base</text>
+<text x="330" y="1934" class="hex">#263F31</text>
+<rect x="528" y="1900" width="44" height="40" fill="#3B563C" stroke="#7b7955"/>
+<text x="582" y="1916" class="label">Button hover</text>
+<text x="582" y="1934" class="hex">#3B563C</text>
+<rect x="780" y="1900" width="44" height="40" fill="#354C38" stroke="#7b7955"/>
+<text x="834" y="1916" class="label">Disabled edge</text>
+<text x="834" y="1934" class="hex">#354C38</text>
+<rect x="24" y="1958" width="44" height="40" fill="#465D43" stroke="#7b7955"/>
+<text x="78" y="1974" class="label">Track edge</text>
+<text x="78" y="1992" class="hex">#465D43</text>
+<rect x="276" y="1958" width="44" height="40" fill="#637656" stroke="#7b7955"/>
+<text x="330" y="1974" class="label">Button edge</text>
+<text x="330" y="1992" class="hex">#637656</text>
+<rect x="528" y="1958" width="44" height="40" fill="#7B7955" stroke="#7b7955"/>
+<text x="582" y="1974" class="label">HUD edge</text>
+<text x="582" y="1992" class="hex">#7B7955</text>
+<rect x="780" y="1958" width="44" height="40" fill="#82927D" stroke="#7b7955"/>
+<text x="834" y="1974" class="label">Disabled text</text>
+<text x="834" y="1992" class="hex">#82927D</text>
+<rect x="24" y="2016" width="44" height="40" fill="#A99A6A" stroke="#7b7955"/>
+<text x="78" y="2032" class="label">Panel edge</text>
+<text x="78" y="2050" class="hex">#A99A6A</text>
+<rect x="276" y="2016" width="44" height="40" fill="#BCA05D" stroke="#7b7955"/>
+<text x="330" y="2032" class="label">Gold base</text>
+<text x="330" y="2050" class="hex">#BCA05D</text>
+<rect x="528" y="2016" width="44" height="40" fill="#E4C78C" stroke="#7b7955"/>
+<text x="582" y="2032" class="label">Hover gold</text>
+<text x="582" y="2050" class="hex">#E4C78C</text>
+<rect x="780" y="2016" width="44" height="40" fill="#F4DB9A" stroke="#7b7955"/>
+<text x="834" y="2032" class="label">Selected marker</text>
+<text x="834" y="2050" class="hex">#F4DB9A</text>
+<rect x="24" y="2074" width="44" height="40" fill="#F5DFA6" stroke="#7b7955"/>
+<text x="78" y="2090" class="label">Heading</text>
+<text x="78" y="2108" class="hex">#F5DFA6</text>
+<rect x="276" y="2074" width="44" height="40" fill="#EFE6CD" stroke="#7b7955"/>
+<text x="330" y="2090" class="label">Body text</text>
+<text x="330" y="2108" class="hex">#EFE6CD</text>
+<rect x="528" y="2074" width="44" height="40" fill="#FFF0CC" stroke="#7b7955"/>
+<text x="582" y="2090" class="label">Bright text</text>
+<text x="582" y="2108" class="hex">#FFF0CC</text>
+</svg>

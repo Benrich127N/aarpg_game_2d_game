@@ -9,6 +9,11 @@ func check(condition: bool, description: String) -> void:
 func settle() -> void:
 	for frame in range(3): await get_tree().process_frame
 
+func capture(name: String) -> void:
+	if DisplayServer.get_name() == "headless": return
+	await RenderingServer.frame_post_draw
+	get_viewport().get_texture().get_image().save_png("res://.godot/review-menu-" + name + ".png")
+
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	Game.auto_load = false
@@ -33,16 +38,36 @@ func _ready() -> void:
 	ui.title_page.buttons["New game"].pressed.emit()
 	await settle()
 	check(ui.overlay.visible and not ui.title_page.visible and ui.heading.text == "Start fresh?", "New game retains its confirmation")
+	check(ui.page_art.visible and ui.page_backdrop.visible, "New game has an illustrated pixel page")
+	await capture("new-game")
 	ui.close()
 	await settle()
 	ui.title_page.buttons.Settings.pressed.emit()
 	await settle()
 	check(ui.heading.text == "Settings" and ui.overlay.visible, "Settings opens from styled menu")
+	check(ui.page_art.visible and ui.page_art.headline.text == "Make it\nyour own.", "Settings uses its own pixel illustration")
+	var slider: HSlider = ui.body.find_child("MusicVolume", true, false)
+	check(slider != null and ui.overlay.theme.has_icon("grabber", "HSlider"), "Settings has custom pixel slider controls")
+	var old_volume: float = Game.settings.values.Music
+	slider.value = 0.25
+	check(is_equal_approx(Game.settings.values.Music, 0.25), "Styled volume control still changes settings")
+	slider.value = old_volume
+	await settle()
+	await capture("settings")
+	Game.settings.set_value("text_scale", 1.4)
+	ui.settings_menu()
+	await settle()
+	check(ui.page_scroll.get_v_scroll_bar().max_value > 0, "Settings content scrolls at large text size")
+	check(ui.page_panel.get_global_rect().end.x <= ui.overlay.size.x, "Illustrated page fits at large text size")
+	await capture("settings-large-text")
+	Game.settings.set_value("text_scale", 1.0)
 	ui.close()
 	await settle()
 	ui.title_page.buttons.Credits.pressed.emit()
 	await settle()
 	check(ui.heading.text == "Credits" and ui.overlay.visible, "Credits opens from styled menu")
+	check(ui.page_art.headline.text == "The people.\nThe place.", "Credits uses its own pixel illustration")
+	await capture("credits")
 	ui.close()
 	await settle()
 	Game.save.enabled = true

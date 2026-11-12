@@ -1,0 +1,25 @@
+GIMP Palette
+Name: PH NIGHT - Club interior
+Columns: 4
+# Selected exact colors from scripts/world/ClubInterior.gd.
+ 16  20  33	Surround
+  9  14  25	Speaker black
+ 23  23  36	Booth
+ 32  30  50	Floor shadow
+ 40  37  59	Floor base
+ 48  44  70	Floor alternate
+ 52  48  75	Walls
+ 86  83 110	Equipment
+119  87 113	Bar
+212 167 120	Counter light
+121 180 165	Bottles
+211 191 141	Bottle caps
+ 97  66  99	Seat shadow
+145  97 133	Seat base
+170 109 155	Stools
+183 120 206	Neon
+101  77 128	Dance purple
+ 67 127 131	Dance teal
+167 107 131	Dance pink
+105 140 128	Exit trim
+ 40  61  60	Exit mat

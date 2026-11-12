@@ -1,5 +1,7 @@
 # PH NIGHT pixel art — first environment pack
 
+Planning to redraw these assets? Use the [Aseprite redraw workbook](../../docs/Aseprite_Redraw_Guide.md) for tracing, dimensions, animation layout, integration notes and loadable color palettes.
+
 `lagos-props-v1.png` is an RGBA atlas generated with the built-in OpenAI image generation tool on 2026-11-10 for this project, using no reference images or third-party input art. The exact generation prompt is in `generation-prompt.txt`.
 
 The delivered image is **1448 × 1086**, with four columns and three rows of **362 × 362** cells. This differs from the dimensions requested in the prompt; the runtime adapter reads actual texture dimensions. Keep the transparent gutters and use nearest-neighbour filtering. `scripts/world/PixelArt.gd` supplies AtlasTexture regions without modifying the source image.

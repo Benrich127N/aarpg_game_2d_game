@@ -12,7 +12,7 @@ var delivery_checkpoint: bool = false
 var delivery_received: bool = false
 
 func _ready() -> void:
-	for id in ["delivery", "stock"]:
+	for id in ["delivery", "stock", "club"]:
 		catalog[id] = load("res://resources/jobs/%s.tres" % id)
 
 func now() -> int:
@@ -20,6 +20,7 @@ func now() -> int:
 
 func reason(id: String) -> String:
 	if not catalog.has(id): return "Unknown job."
+	if id == "club" and Game.scenes.location != "club": return "Visit the PH Night Club on the mainland to work a bar shift."
 	if not active.is_empty(): return "Finish or cancel your current job first."
 	if completed < int(catalog[id].required_jobs): return "Complete a delivery to unlock this shift."
 	if Global.energy < int(catalog[id].energy): return "Rest first: not enough energy."
@@ -35,6 +36,7 @@ func start(id: String) -> bool:
 	active = {"id": id, "token": attempts, "started": now()}
 	Global.change_energy(-int(catalog[id].energy))
 	stock_order = ["rice", "water", "soap"]
+	if id == "club": stock_order = ["water", "juice", "soda"]
 	stock_order.shuffle()
 	stock_index = 0
 	delivery_checkpoint = false
@@ -56,6 +58,13 @@ func deliver_to(npc_id: String) -> bool:
 
 func match_stock(item: String) -> bool:
 	if active.get("id", "") != "stock": return false
+	return _match_order(item)
+
+func serve_club(item: String) -> bool:
+	if active.get("id", "") != "club" or Game.scenes.location != "club": return false
+	return _match_order(item)
+
+func _match_order(item: String) -> bool:
 	if stock_index >= stock_order.size(): return false
 	if item != stock_order[stock_index]:
 		finish(int(active.token), false)
@@ -70,7 +79,7 @@ func finish(token: int, success: bool) -> bool:
 	if active.is_empty() or int(active.token) != token: return false
 	var id: String = active.id
 	if success and id == "delivery" and (not delivery_checkpoint or not delivery_received): return false
-	if success and id == "stock" and stock_index != stock_order.size(): return false
+	if success and id in ["stock", "club"] and stock_index != stock_order.size(): return false
 	var data: Resource = catalog[id]
 	if success and Global.cash > 9223372036854775807 - int(data.pay): return false
 	active.clear() # Consume the attempt before emitting any signals.

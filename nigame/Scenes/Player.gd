@@ -7,7 +7,7 @@ var layers: Array[AnimatedSprite2D] = []
 var walk_distance: float = 0.0
 const STRIDE_DISTANCE := 144.0
 var idle_time: float = 0.0
-const VISUAL_ORIGIN := Vector2(0, -22)
+const VISUAL_ORIGIN = preload("res://scripts/characters/CharacterGrounding.gd").VISUAL_ORIGIN
 const IDLE_DELAY := 0.35
 const BREATH_PERIOD := 2.8
 
@@ -22,6 +22,10 @@ func _ready() -> void:
 	update_outfit()
 	Game.settings.changed.connect(_settings_changed)
 	_settings_changed()
+	queue_redraw()
+
+func _draw() -> void:
+	preload("res://scripts/characters/CharacterGrounding.gd").shadow(self)
 
 func _settings_changed() -> void:
 	$Camera2D.position_smoothing_enabled = not bool(Game.settings.values.reduced_motion)
